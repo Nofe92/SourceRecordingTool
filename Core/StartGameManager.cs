@@ -46,10 +46,9 @@ namespace SourceRecordingTool
 
         private static void Start()
         {
-            Initialize();
-
             try
             {
+                Initialize();
                 EnsureRequirements();
 
                 if (MainForm.CurrentProfile.CreateBackups)

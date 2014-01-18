@@ -47,6 +47,8 @@ namespace SourceRecordingTool
 
         private void Initialize()
         {
+            Program.SetWindowTheme(this.TgaListView.Handle, "explorer", null);
+
             openDemoDialog = new OpenFileDialog();
             openProfileDialog = new OpenFileDialog();
             saveProfileDialog = new SaveFileDialog();
@@ -66,11 +68,9 @@ namespace SourceRecordingTool
             Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             Text = "Aron's Source Recording Tool " + Updater.currentVersion.ToString();
 
-            Program.SetWindowTheme(this.TgaListView.Handle, "explorer", null);
-            StartGameManager.GameClosed += AfterGame;
-
             CurrentProfile.UpdateForm(this);
 
+            StartGameManager.GameClosed += AfterGame;
             ResolutionComboBox.TextChanged += new EventHandler(ResolutionComboBox_TextChanged);
             FramerateComboBox.TextChanged += new EventHandler(FramerateComboBox_TextChanged);
 
@@ -324,6 +324,33 @@ namespace SourceRecordingTool
             FileSystem.OpenDirectory("moviefiles\\custom");
         }
 
+        private void CustomCheckedListBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                CustomCheckedListBox.SelectedIndex = CustomCheckedListBox.IndexFromPoint(e.Location);
+        }
+
+        private void CustomCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (disableCustomEvents)
+                return;
+
+            if ((e.NewValue = e.CurrentValue) == CheckState.Checked)
+            {
+                if (File.Exists("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]))
+                    File.Move("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]);
+                else if (Directory.Exists("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]))
+                    Directory.Move("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]);
+            }
+            else
+            {
+                if (File.Exists("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]))
+                    File.Move("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]);
+                else if (Directory.Exists("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]))
+                    Directory.Move("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]);
+            }
+        }
+
         private void cfgFileSystemWatcher_Created(object sender, FileSystemEventArgs e)
         {
             ConfigComboBox.Items.Add(e.Name);
@@ -382,33 +409,6 @@ namespace SourceRecordingTool
             disableCustomEvents = false;
         }
 
-        private void CustomCheckedListBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-                CustomCheckedListBox.SelectedIndex = CustomCheckedListBox.IndexFromPoint(e.Location);
-        }
-
-        private void CustomCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (disableCustomEvents)
-                return;
-
-            if ((e.NewValue = e.CurrentValue) == CheckState.Checked)
-            {
-                if (File.Exists("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]))
-                    File.Move("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]);
-                else if (Directory.Exists("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]))
-                    Directory.Move("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]);
-            }
-            else
-            {
-                if (File.Exists("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]))
-                    File.Move("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]);
-                else if (Directory.Exists("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]))
-                    Directory.Move("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]);
-            }
-        }
-
         #region CustomContextMenu
         private void customContextMenuStrip_Opened(object sender, EventArgs e)
         {
@@ -422,9 +422,9 @@ namespace SourceRecordingTool
         private void viewCustomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CustomCheckedListBox.GetItemChecked(CustomCheckedListBox.SelectedIndex))
-                FileSystem.Open("explorer.exe", String.Concat("/select,moviefiles\\custom\\", (string)CustomCheckedListBox.SelectedItem));
+                FileSystem.OpenExplorer(String.Concat("moviefiles\\custom\\", (string)CustomCheckedListBox.SelectedItem));
             else
-                FileSystem.Open("explorer.exe", String.Concat("/select,moviefiles\\custom_disabled\\", (string)CustomCheckedListBox.SelectedItem));
+                FileSystem.OpenExplorer(String.Concat("moviefiles\\custom_disabled\\", (string)CustomCheckedListBox.SelectedItem));
         }
 
         private void viewContentsCustomToolStripMenuItem_Click(object sender, EventArgs e)
@@ -480,19 +480,19 @@ namespace SourceRecordingTool
 
         private void AfterGame(bool success)
         {
-            if (!success)
-                return;
-
             if (InvokeRequired)
                 Invoke((MethodInvoker)(() =>
                 {
                     RefreshDatarate();
                     RefreshTGASequences(false);
 
-                    if (CurrentProfile.CompileOnGameExit)
-                        StartCompiling();
-                    else
-                        AfterRecording();
+                    if (success)
+                    {
+                        if (CurrentProfile.CompileOnGameExit)
+                            StartCompiling();
+                        else
+                            AfterRecording();
+                    }
                 }));
         }
 
@@ -702,7 +702,7 @@ namespace SourceRecordingTool
         private void viewTgaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in TgaListView.SelectedItems)
-                FileSystem.Open("explorer.exe", String.Concat("/select,\"", TgaTextBox.Text, "\\", item.Text, "_0000.tga\""));
+                FileSystem.OpenExplorer(String.Concat(TgaTextBox.Text, "\\", item.Text, "_0000.tga"));
         }
 
         private void deleteTgaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -996,7 +996,7 @@ namespace SourceRecordingTool
 
             if (vdmForm.ShowDialog() == DialogResult.OK)
             {
-                MainForm.CurrentProfile.ScheduledRecordingMode = vdmForm.modeComboBox.SelectedIndex;
+                CurrentProfile.ScheduledRecordingMode = vdmForm.modeComboBox.SelectedIndex;
 
                 StartGameManager.RecordingRanges.Clear();
                 StartGameManager.RecordingRanges.AddRange(vdmForm.RecordingRanges);

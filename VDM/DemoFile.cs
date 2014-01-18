@@ -8,15 +8,20 @@ namespace SourceRecordingTool
 {
     public class DemoFile
     {
-        public string name;
-        public string path;
-        public int demoProtocol;
-        public int networkProtocol;
-        public string serverName;
-        public string clientName;
-        public string mapName;
-        public string gameDirectory;
-        public float playbackTime;
-        public int ticks;
+        public string Name;
+        public string DirectoryName;
+        public int DemoProtocol;
+        public int NetworkProtocol;
+        public string ServerName;
+        public string ClientName;
+        public string MapName;
+        public string GameDirectory;
+        public float PlaybackTime;
+        public int Ticks;
+
+        public string FullName
+        {
+            get { return String.Concat(DirectoryName, "\\", Name); }
+        }
     }
 }

@@ -65,6 +65,11 @@ namespace SourceRecordingTool
                 Open("explorer.exe", path);
         }
 
+        public static void OpenExplorer(string path)
+        {
+            Open("explorer.exe", "/select,\"" + path + "\"");
+        }
+
         public static void Open(string fileName)
         {
             using (Process process = new Process())

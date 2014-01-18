@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.directoriesLabel = new System.Windows.Forms.Label();
             this.pathLabel = new System.Windows.Forms.Label();
             this.filterLabel = new System.Windows.Forms.Label();
@@ -44,17 +45,25 @@
             this.ticksColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.demoProtocolColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.networkProtocolColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.demosContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.viewDemosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rangesLabel = new System.Windows.Forms.Label();
             this.rangesListView = new System.Windows.Forms.ListView();
             this.demoNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.startTickColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.endTickColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.rangesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.viewRangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editRangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteRangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addRangeButton = new System.Windows.Forms.Button();
             this.editRangeButton = new System.Windows.Forms.Button();
             this.deleteRangeButton = new System.Windows.Forms.Button();
             this.pathBrowseButton = new System.Windows.Forms.Button();
             this.startRecordingButton = new System.Windows.Forms.Button();
             this.modeComboBox = new System.Windows.Forms.ComboBox();
+            this.demosContextMenuStrip.SuspendLayout();
+            this.rangesContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // directoriesLabel
@@ -139,6 +148,7 @@
             this.ticksColumnHeader,
             this.demoProtocolColumnHeader,
             this.networkProtocolColumnHeader});
+            this.demosListView.ContextMenuStrip = this.demosContextMenuStrip;
             this.demosListView.FullRowSelect = true;
             this.demosListView.HideSelection = false;
             this.demosListView.Location = new System.Drawing.Point(12, 150);
@@ -197,6 +207,21 @@
             this.networkProtocolColumnHeader.Text = "Network Protocol";
             this.networkProtocolColumnHeader.Width = 100;
             // 
+            // demosContextMenuStrip
+            // 
+            this.demosContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewDemosToolStripMenuItem});
+            this.demosContextMenuStrip.Name = "demoContextMenuStrip";
+            this.demosContextMenuStrip.Size = new System.Drawing.Size(100, 26);
+            this.demosContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.demosContextMenuStrip_Opening);
+            // 
+            // viewDemosToolStripMenuItem
+            // 
+            this.viewDemosToolStripMenuItem.Name = "viewDemosToolStripMenuItem";
+            this.viewDemosToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.viewDemosToolStripMenuItem.Text = "View";
+            this.viewDemosToolStripMenuItem.Click += new System.EventHandler(this.viewDemosToolStripMenuItem_Click);
+            // 
             // rangesLabel
             // 
             this.rangesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -219,6 +244,7 @@
             this.demoNameColumnHeader,
             this.startTickColumnHeader,
             this.endTickColumnHeader});
+            this.rangesListView.ContextMenuStrip = this.rangesContextMenuStrip;
             this.rangesListView.FullRowSelect = true;
             this.rangesListView.Location = new System.Drawing.Point(12, 396);
             this.rangesListView.Name = "rangesListView";
@@ -244,6 +270,37 @@
             // 
             this.endTickColumnHeader.Text = "End Tick";
             this.endTickColumnHeader.Width = 100;
+            // 
+            // rangesContextMenuStrip
+            // 
+            this.rangesContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewRangesToolStripMenuItem,
+            this.editRangesToolStripMenuItem,
+            this.deleteRangesToolStripMenuItem});
+            this.rangesContextMenuStrip.Name = "rangeContextMenuStrip";
+            this.rangesContextMenuStrip.Size = new System.Drawing.Size(153, 92);
+            this.rangesContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.rangesContextMenuStrip_Opening);
+            // 
+            // viewRangesToolStripMenuItem
+            // 
+            this.viewRangesToolStripMenuItem.Name = "viewRangesToolStripMenuItem";
+            this.viewRangesToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.viewRangesToolStripMenuItem.Text = "View";
+            this.viewRangesToolStripMenuItem.Click += new System.EventHandler(this.viewRangesToolStripMenuItem_Click);
+            // 
+            // editRangesToolStripMenuItem
+            // 
+            this.editRangesToolStripMenuItem.Name = "editRangesToolStripMenuItem";
+            this.editRangesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editRangesToolStripMenuItem.Text = "Edit";
+            this.editRangesToolStripMenuItem.Click += new System.EventHandler(this.editRangesToolStripMenuItem_Click);
+            // 
+            // deleteRangesToolStripMenuItem
+            // 
+            this.deleteRangesToolStripMenuItem.Name = "deleteRangesToolStripMenuItem";
+            this.deleteRangesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteRangesToolStripMenuItem.Text = "Delete";
+            this.deleteRangesToolStripMenuItem.Click += new System.EventHandler(this.deleteRangesToolStripMenuItem_Click);
             // 
             // addRangeButton
             // 
@@ -339,6 +396,8 @@
             this.Name = "VDMForm";
             this.ShowIcon = false;
             this.Text = "Scheduled Recording";
+            this.demosContextMenuStrip.ResumeLayout(false);
+            this.rangesContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -373,5 +432,11 @@
         private System.Windows.Forms.ColumnHeader demoProtocolColumnHeader;
         private System.Windows.Forms.ColumnHeader networkProtocolColumnHeader;
         public System.Windows.Forms.ComboBox modeComboBox;
+        private System.Windows.Forms.ContextMenuStrip demosContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem viewDemosToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip rangesContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem viewRangesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editRangesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteRangesToolStripMenuItem;
     }
 }
