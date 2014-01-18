@@ -17,10 +17,11 @@ namespace SourceRecordingTool
         public UpdateForm(string changelogURL)
         {
             InitializeComponent();
+
             HttpWebRequest request = WebRequest.CreateHttp(changelogURL);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Stream responseStream = response.GetResponseStream();
-            richTextBox.LoadFile(responseStream, RichTextBoxStreamType.PlainText);
+            RichTextBox.LoadFile(responseStream, RichTextBoxStreamType.PlainText);
             responseStream.Close();
             response.Close();
         }

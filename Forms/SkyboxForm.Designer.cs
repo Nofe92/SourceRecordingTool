@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // flowLayoutPanel
             // 
-            this.flowLayoutPanel.AutoScroll = true;
-            this.flowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(619, 561);
-            this.flowLayoutPanel.TabIndex = 0;
+            this.FlowLayoutPanel.AutoScroll = true;
+            this.FlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.FlowLayoutPanel.Name = "flowLayoutPanel";
+            this.FlowLayoutPanel.Size = new System.Drawing.Size(619, 561);
+            this.FlowLayoutPanel.TabIndex = 0;
             // 
             // SkyboxForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(620, 600);
-            this.Controls.Add(this.flowLayoutPanel);
+            this.Controls.Add(this.FlowLayoutPanel);
             this.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "SkyboxForm";
             this.ShowIcon = false;
@@ -58,6 +58,6 @@
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
+        public System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel;
     }
 }

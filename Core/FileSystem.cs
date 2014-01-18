@@ -23,14 +23,14 @@ namespace SourceRecordingTool
                 CopyDirectory(sourceDir, String.Concat(destDirName, "\\", Path.GetFileName(sourceDir)));
         }
 
-        public static void DeleteDirectory(string path)
+        public static void MoveDirectory(string sourceDirName, string destDirName)
         {
             while (true)
             {
                 try
                 {
-                    if (Directory.Exists(path))
-                        Directory.Delete(path, true);
+                    if (Directory.Exists(sourceDirName))
+                        Directory.Move(sourceDirName, destDirName);
                     break;
                 }
                 catch (Exception ex)
@@ -41,14 +41,14 @@ namespace SourceRecordingTool
             }
         }
 
-        public static void MoveDirectory(string sourceDirName, string destDirName)
+        public static void DeleteDirectory(string path)
         {
             while (true)
             {
                 try
                 {
-                    if (Directory.Exists(sourceDirName))
-                        Directory.Move(sourceDirName, destDirName);
+                    if (Directory.Exists(path))
+                        Directory.Delete(path, true);
                     break;
                 }
                 catch (Exception ex)

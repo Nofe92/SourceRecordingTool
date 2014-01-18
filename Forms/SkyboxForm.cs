@@ -16,21 +16,7 @@ namespace SourceRecordingTool
             defaultSkybox.Margin = new Padding(0);
             defaultSkybox.Click += defaultSkybox_Click;
 
-            flowLayoutPanel.SuspendLayout();
-            flowLayoutPanel.Controls.Add(defaultSkybox);
-            
-            foreach (SRTSkybox skybox in SRTSkybox.Skyboxes)
-            {
-                PictureBox pictureBox = new PictureBox();
-                pictureBox.Size = new Size(600, 150);
-                pictureBox.Image = skybox.PreviewImage;
-                pictureBox.Margin = new Padding(0);
-                pictureBox.Tag = skybox;
-                pictureBox.Click += pictureBox_Click;
-                flowLayoutPanel.Controls.Add(pictureBox);
-            }
-
-            flowLayoutPanel.ResumeLayout(false);
+            FlowLayoutPanel.Controls.Add(defaultSkybox);
         }
 
         private void defaultSkybox_Click(object sender, EventArgs e)
@@ -39,7 +25,7 @@ namespace SourceRecordingTool
             Close();
         }
 
-        private void pictureBox_Click(object sender, EventArgs e)
+        public void PictureBox_Click(object sender, EventArgs e)
         {
             MainForm.CurrentProfile.Skyname = ((SRTSkybox)((PictureBox)sender).Tag).Name;
             Close();

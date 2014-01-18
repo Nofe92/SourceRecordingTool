@@ -14,11 +14,17 @@ namespace SourceRecordingTool
     {
         public static string[] Sides = new string[] { "lf", "bk", "rt", "ft", "up", "dn" };
         public static List<SRTSkybox> Skyboxes = new List<SRTSkybox>();
+        public static SkyboxForm SkyboxForm = new SkyboxForm();
         private static string vtfcmdPath;
 
         public string Name;
         public string FileName;
         public Image PreviewImage;
+
+        static SRTSkybox()
+        {
+            vtfcmdPath = String.Concat("moviefiles\\tools\\VTFLib\\", Environment.Is64BitProcess ? "x64" : "x86", "\\VTFCmd.exe");
+        }
 
         public static SRTSkybox FindSkyboxByName(string name)
         {
@@ -28,16 +34,7 @@ namespace SourceRecordingTool
             return Skyboxes.First(sky => sky.Name == name);
         }
 
-        internal static void Initialize()
-        {
-            vtfcmdPath = String.Concat("moviefiles\\tools\\VTFLib\\", Environment.Is64BitProcess ? "x64" : "x86", "\\VTFCmd.exe");
-
-            Directory.CreateDirectory("moviefiles\\skybox");
-            foreach (string dir in Directory.EnumerateDirectories("moviefiles\\skybox"))
-                AddSkyboxByDirectory(dir);
-        }
-
-        private static void AddSkyboxByDirectory(string dir)
+        public static void AddSkyboxByDirectory(string dir)
         {
             SRTSkybox skybox = new SRTSkybox();
             skybox.Name = Path.GetFileName(dir);
@@ -53,10 +50,21 @@ namespace SourceRecordingTool
                 skybox.PreviewImage = Image.FromFile(previewFileName);
             else if (File.Exists(vtfcmdPath))
                 skybox.PreviewImage = GenerateSkyboxPreview(skybox, previewFileName);
+            else if (File.Exists(previewFileName + ".old"))
+                skybox.PreviewImage = Image.FromFile(previewFileName + ".old");
             else
-                skybox.PreviewImage = GenerateDefaultSkyboxPreview(skybox, previewFileName);
+                skybox.PreviewImage = GenerateDefaultSkyboxPreview(skybox, previewFileName + ".old");
 
             Skyboxes.Add(skybox);
+
+            PictureBox pictureBox = new PictureBox();
+            pictureBox.Size = new Size(600, 150);
+            pictureBox.Image = skybox.PreviewImage;
+            pictureBox.Margin = new Padding(0);
+            pictureBox.Tag = skybox;
+            pictureBox.Click += SkyboxForm.PictureBox_Click;
+
+            SkyboxForm.FlowLayoutPanel.Controls.Add(pictureBox);
         }
 
         private static Image GenerateSkyboxPreview(SRTSkybox skybox, string previewFileName)
