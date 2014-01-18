@@ -658,7 +658,7 @@ namespace SourceRecordingTool
                 if (folder.ShowDialog() == DialogResult.OK)
                     TgaTextBox.Text = folder.SelectedPath;
             }
-
+            
             RefreshTGASequences(false);
         }
 

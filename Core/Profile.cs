@@ -154,7 +154,7 @@ namespace SourceRecordingTool
             Width = 1920;
             Height = 1080;
             Framerate = 60;
-            Config = "";
+            Config = "tf2-movie.cfg";
             Skyname = "";
 
             if (resetDirs)

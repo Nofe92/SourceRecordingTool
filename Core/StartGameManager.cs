@@ -424,15 +424,6 @@ namespace SourceRecordingTool
                 writer.WriteLine("bind B \"toggle r_depthoverlay\"");
                 writer.WriteLine();
 
-                writer.WriteLine("r_drawothermodels 1");
-                writer.WriteLine("viewmodel_fov_demo 70");
-                writer.WriteLine("demo_fov_override 0");
-                writer.WriteLine("cl_drawhud 1");
-                writer.WriteLine("crosshair 1");
-                writer.WriteLine("r_drawviewmodel 1");
-                writer.WriteLine("r_depthoverlay 0");
-                writer.WriteLine();
-
                 if (MainForm.CurrentProfile.DemoPlaybackFeatures)
                 {
                     for (int i = -20; i <= 20; i++)
