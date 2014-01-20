@@ -27,10 +27,10 @@ namespace SourceRecordingTool
                                             "\tScripts\t- Aron\r\n" +
                                             "\r\n" +
                                             "Config\r\n" +
-                                            "\ttf2-movie.cfg\t- Aron\r\n" +
-                                            "\ttf2-play.cfg\t- Aron\r\n" +
                                             "\tgeneric-movie.cfg\t- Aron\r\n" +
                                             "\tgeneric-play.cfg\t- Aron\r\n" +
+                                            "\ttf2-movie.cfg\t- Aron\r\n" +
+                                            "\ttf2-play.cfg\t- Aron\r\n" +
                                             "\r\n" +
                                             "Custom\r\n" +
                                             "\ttf2-moviehud\t- python\r\n" +

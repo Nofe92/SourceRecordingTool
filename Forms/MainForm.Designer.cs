@@ -51,9 +51,10 @@
             this.nameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.framesColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.fpsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tgasColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.sizeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.recordedAtColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.durationColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tgasColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tgaContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.viewTgaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTgaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -150,6 +151,8 @@
             this.selectAllCustomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNoneCustomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SkyboxPictureBox = new System.Windows.Forms.PictureBox();
+            this.editButton = new System.Windows.Forms.Button();
+            this.openCommonPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tgaContextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.customContextMenuStrip.SuspendLayout();
@@ -188,7 +191,6 @@
             this.gameLabel.TabIndex = 1;
             this.gameLabel.Text = "Game:";
             this.gameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gameLabel.Click += new System.EventHandler(this.gameLabel_Click);
             // 
             // generalLabel
             // 
@@ -257,7 +259,7 @@
             this.startGameButton.Location = new System.Drawing.Point(168, 552);
             this.startGameButton.Name = "startGameButton";
             this.startGameButton.Size = new System.Drawing.Size(300, 47);
-            this.startGameButton.TabIndex = 19;
+            this.startGameButton.TabIndex = 20;
             this.startGameButton.Text = "Start Game";
             this.startGameButton.Click += new System.EventHandler(this.startGameButton_Click);
             // 
@@ -291,8 +293,9 @@
             "(no config)"});
             this.ConfigComboBox.Location = new System.Drawing.Point(168, 289);
             this.ConfigComboBox.Name = "ConfigComboBox";
-            this.ConfigComboBox.Size = new System.Drawing.Size(300, 23);
+            this.ConfigComboBox.Size = new System.Drawing.Size(234, 23);
             this.ConfigComboBox.TabIndex = 14;
+            this.ConfigComboBox.SelectedIndexChanged += new System.EventHandler(this.ConfigComboBox_SelectedIndexChanged);
             // 
             // customLabel
             // 
@@ -301,7 +304,7 @@
             this.customLabel.Name = "customLabel";
             this.customLabel.Padding = new System.Windows.Forms.Padding(50, 0, 0, 0);
             this.customLabel.Size = new System.Drawing.Size(150, 23);
-            this.customLabel.TabIndex = 15;
+            this.customLabel.TabIndex = 16;
             this.customLabel.Text = "Custom:";
             this.customLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.customLabel.Click += new System.EventHandler(this.customLabel_Click);
@@ -325,7 +328,7 @@
             this.videoDirLabel.Name = "videoDirLabel";
             this.videoDirLabel.Padding = new System.Windows.Forms.Padding(50, 0, 0, 0);
             this.videoDirLabel.Size = new System.Drawing.Size(150, 23);
-            this.videoDirLabel.TabIndex = 22;
+            this.videoDirLabel.TabIndex = 23;
             this.videoDirLabel.Text = "Video-Directory:";
             this.videoDirLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.videoDirLabel.Click += new System.EventHandler(this.aviLabel_Click);
@@ -337,7 +340,7 @@
             this.tgaDirLabel.Name = "tgaDirLabel";
             this.tgaDirLabel.Padding = new System.Windows.Forms.Padding(50, 0, 0, 0);
             this.tgaDirLabel.Size = new System.Drawing.Size(150, 23);
-            this.tgaDirLabel.TabIndex = 21;
+            this.tgaDirLabel.TabIndex = 22;
             this.tgaDirLabel.Text = "TGA-Directory:";
             this.tgaDirLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tgaDirLabel.Click += new System.EventHandler(this.tgaLabel_Click);
@@ -351,7 +354,7 @@
             this.directoriesLabel.Location = new System.Drawing.Point(474, 24);
             this.directoriesLabel.Name = "directoriesLabel";
             this.directoriesLabel.Size = new System.Drawing.Size(598, 40);
-            this.directoriesLabel.TabIndex = 20;
+            this.directoriesLabel.TabIndex = 21;
             this.directoriesLabel.Text = "Directories";
             this.directoriesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -365,7 +368,7 @@
             this.TgaTextBox.MaxLength = 260;
             this.TgaTextBox.Name = "TgaTextBox";
             this.TgaTextBox.Size = new System.Drawing.Size(412, 23);
-            this.TgaTextBox.TabIndex = 23;
+            this.TgaTextBox.TabIndex = 24;
             this.TgaTextBox.Leave += new System.EventHandler(this.TgaTextBox_Leave);
             // 
             // VideoTextBox
@@ -378,7 +381,7 @@
             this.VideoTextBox.MaxLength = 260;
             this.VideoTextBox.Name = "VideoTextBox";
             this.VideoTextBox.Size = new System.Drawing.Size(412, 23);
-            this.VideoTextBox.TabIndex = 24;
+            this.VideoTextBox.TabIndex = 25;
             // 
             // TgaListView
             // 
@@ -390,16 +393,17 @@
             this.nameColumnHeader,
             this.framesColumnHeader,
             this.fpsColumnHeader,
+            this.tgasColumnHeader,
+            this.sizeColumnHeader,
             this.recordedAtColumnHeader,
-            this.durationColumnHeader,
-            this.tgasColumnHeader});
+            this.durationColumnHeader});
             this.TgaListView.ContextMenuStrip = this.tgaContextMenuStrip;
             this.TgaListView.FullRowSelect = true;
             this.TgaListView.HideSelection = false;
             this.TgaListView.Location = new System.Drawing.Point(524, 165);
             this.TgaListView.Name = "TgaListView";
             this.TgaListView.Size = new System.Drawing.Size(548, 352);
-            this.TgaListView.TabIndex = 28;
+            this.TgaListView.TabIndex = 29;
             this.TgaListView.UseCompatibleStateImageBehavior = false;
             this.TgaListView.View = System.Windows.Forms.View.Details;
             this.TgaListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tgaListView_KeyDown);
@@ -416,20 +420,23 @@
             // 
             this.fpsColumnHeader.Text = "FPS";
             // 
+            // tgasColumnHeader
+            // 
+            this.tgasColumnHeader.Text = "TGA/s";
+            // 
+            // sizeColumnHeader
+            // 
+            this.sizeColumnHeader.Text = "Size";
+            // 
             // recordedAtColumnHeader
             // 
             this.recordedAtColumnHeader.Text = "Recorded at";
-            this.recordedAtColumnHeader.Width = 150;
+            this.recordedAtColumnHeader.Width = 125;
             // 
             // durationColumnHeader
             // 
             this.durationColumnHeader.Text = "Recording Duration";
-            this.durationColumnHeader.Width = 120;
-            // 
-            // tgasColumnHeader
-            // 
-            this.tgasColumnHeader.Text = "TGA/s";
-            this.tgasColumnHeader.Width = 94;
+            this.durationColumnHeader.Width = 119;
             // 
             // tgaContextMenuStrip
             // 
@@ -485,7 +492,7 @@
             this.tgaCompilerLabel.Location = new System.Drawing.Point(474, 122);
             this.tgaCompilerLabel.Name = "tgaCompilerLabel";
             this.tgaCompilerLabel.Size = new System.Drawing.Size(598, 40);
-            this.tgaCompilerLabel.TabIndex = 27;
+            this.tgaCompilerLabel.TabIndex = 28;
             this.tgaCompilerLabel.Text = "TGA Compiler (TGA » AVI)";
             this.tgaCompilerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tgaCompilerLabel.Click += new System.EventHandler(this.tgaLabel_Click);
@@ -498,7 +505,7 @@
             this.startCompilingButton.Location = new System.Drawing.Point(524, 552);
             this.startCompilingButton.Name = "startCompilingButton";
             this.startCompilingButton.Size = new System.Drawing.Size(548, 47);
-            this.startCompilingButton.TabIndex = 31;
+            this.startCompilingButton.TabIndex = 32;
             this.startCompilingButton.Text = "Start Compiling";
             this.startCompilingButton.Click += new System.EventHandler(this.startCompilingButton_Click);
             // 
@@ -508,7 +515,7 @@
             this.tgaBrowseButton.Location = new System.Drawing.Point(1048, 66);
             this.tgaBrowseButton.Name = "tgaBrowseButton";
             this.tgaBrowseButton.Size = new System.Drawing.Size(24, 23);
-            this.tgaBrowseButton.TabIndex = 25;
+            this.tgaBrowseButton.TabIndex = 26;
             this.tgaBrowseButton.Text = "...";
             this.tgaBrowseButton.UseVisualStyleBackColor = true;
             this.tgaBrowseButton.Click += new System.EventHandler(this.tgaBrowseButton_Click);
@@ -519,7 +526,7 @@
             this.videoBrowseButton.Location = new System.Drawing.Point(1048, 95);
             this.videoBrowseButton.Name = "videoBrowseButton";
             this.videoBrowseButton.Size = new System.Drawing.Size(24, 23);
-            this.videoBrowseButton.TabIndex = 26;
+            this.videoBrowseButton.TabIndex = 27;
             this.videoBrowseButton.Text = "...";
             this.videoBrowseButton.UseVisualStyleBackColor = true;
             this.videoBrowseButton.Click += new System.EventHandler(this.aviBrowseButton_Click);
@@ -555,7 +562,7 @@
             this.CodecComboBox.Location = new System.Drawing.Point(630, 523);
             this.CodecComboBox.Name = "CodecComboBox";
             this.CodecComboBox.Size = new System.Drawing.Size(442, 23);
-            this.CodecComboBox.TabIndex = 30;
+            this.CodecComboBox.TabIndex = 31;
             // 
             // codecLabel
             // 
@@ -565,7 +572,7 @@
             this.codecLabel.Name = "codecLabel";
             this.codecLabel.Padding = new System.Windows.Forms.Padding(50, 0, 0, 0);
             this.codecLabel.Size = new System.Drawing.Size(150, 23);
-            this.codecLabel.TabIndex = 29;
+            this.codecLabel.TabIndex = 30;
             this.codecLabel.Text = "Codec:";
             this.codecLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -594,7 +601,6 @@
             this.directXLabel.TabIndex = 3;
             this.directXLabel.Text = "DirectX:";
             this.directXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.directXLabel.Click += new System.EventHandler(this.directXLabel_Click);
             // 
             // menuStrip
             // 
@@ -608,7 +614,7 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1084, 24);
-            this.menuStrip.TabIndex = 32;
+            this.menuStrip.TabIndex = 33;
             this.menuStrip.Text = "menuStrip1";
             // 
             // profileToolStripMenuItem
@@ -626,7 +632,7 @@
             this.toolStripSeparator5,
             this.exitToolStripMenuItem});
             this.profileToolStripMenuItem.Name = "profileToolStripMenuItem";
-            this.profileToolStripMenuItem.Size = new System.Drawing.Size(53, 23);
+            this.profileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.profileToolStripMenuItem.Text = "Profile";
             // 
             // reloadToolStripMenuItem
@@ -703,6 +709,7 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openCommonPathToolStripMenuItem,
             this.openLongNamePathToolStripMenuItem,
             this.openShortNamePathToolStripMenuItem,
             this.toolStripSeparator6,
@@ -713,7 +720,7 @@
             this.deleteAVIVideosToolStripMenuItem,
             this.deleteMP4VideosToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 23);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // openLongNamePathToolStripMenuItem
@@ -793,7 +800,7 @@
             this.CompileOnGameExitToolStripMenuItem,
             this.afterRecordingToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 23);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // tgaFpsDetectionMethodToolStripMenuItem
@@ -993,7 +1000,7 @@
             this.viewBackupFolderToolStripMenuItem,
             this.clearBackupCacheToolStripMenuItem});
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(58, 23);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.backupToolStripMenuItem.Text = "Backup";
             // 
             // EnableBackupsToolStripMenuItem
@@ -1058,7 +1065,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.vdmCreatorToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 23);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // vdmCreatorToolStripMenuItem
@@ -1080,7 +1087,7 @@
             this.toolStripSeparator14,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // tutorialToolStripMenuItem
@@ -1143,7 +1150,7 @@
             this.skyboxLabel.Location = new System.Drawing.Point(12, 415);
             this.skyboxLabel.Name = "skyboxLabel";
             this.skyboxLabel.Size = new System.Drawing.Size(456, 40);
-            this.skyboxLabel.TabIndex = 17;
+            this.skyboxLabel.TabIndex = 18;
             this.skyboxLabel.Text = "Skybox";
             this.skyboxLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -1155,7 +1162,7 @@
             this.skyboxNameLabel.Name = "skyboxNameLabel";
             this.skyboxNameLabel.Padding = new System.Windows.Forms.Padding(50, 0, 0, 0);
             this.skyboxNameLabel.Size = new System.Drawing.Size(150, 23);
-            this.skyboxNameLabel.TabIndex = 18;
+            this.skyboxNameLabel.TabIndex = 19;
             this.skyboxNameLabel.Text = "Skybox:";
             this.skyboxNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.skyboxNameLabel.Click += new System.EventHandler(this.skyboxNameLabel_Click);
@@ -1170,7 +1177,7 @@
             this.CustomCheckedListBox.Location = new System.Drawing.Point(168, 318);
             this.CustomCheckedListBox.Name = "CustomCheckedListBox";
             this.CustomCheckedListBox.Size = new System.Drawing.Size(300, 94);
-            this.CustomCheckedListBox.TabIndex = 16;
+            this.CustomCheckedListBox.TabIndex = 17;
             // 
             // customContextMenuStrip
             // 
@@ -1229,6 +1236,23 @@
             this.SkyboxPictureBox.TabStop = false;
             this.SkyboxPictureBox.Click += new System.EventHandler(this.skyboxPictureBox_Click);
             // 
+            // editButton
+            // 
+            this.editButton.Location = new System.Drawing.Point(408, 289);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(60, 23);
+            this.editButton.TabIndex = 15;
+            this.editButton.Text = "Edit";
+            this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
+            // openCommonPathToolStripMenuItem
+            // 
+            this.openCommonPathToolStripMenuItem.Name = "openCommonPathToolStripMenuItem";
+            this.openCommonPathToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.openCommonPathToolStripMenuItem.Text = "Open Common Path";
+            this.openCommonPathToolStripMenuItem.Click += new System.EventHandler(this.openCommonPathToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1251,6 +1275,7 @@
             this.Controls.Add(this.customizationLabel);
             this.Controls.Add(this.configLabel);
             this.Controls.Add(this.ConfigComboBox);
+            this.Controls.Add(this.editButton);
             this.Controls.Add(this.customLabel);
             this.Controls.Add(this.CustomCheckedListBox);
             this.Controls.Add(this.skyboxLabel);
@@ -1404,6 +1429,9 @@
         private System.Windows.Forms.ToolStripMenuItem selectAllCustomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneCustomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewChangelogToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader sizeColumnHeader;
+        private System.Windows.Forms.Button editButton;
+        private System.Windows.Forms.ToolStripMenuItem openCommonPathToolStripMenuItem;
     }
 }
 

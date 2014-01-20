@@ -14,7 +14,6 @@ namespace SourceRecordingTool
 {
     public partial class MainForm : Form
     {
-        #region Fields
         public static Profile CurrentProfile;
         public static CultureInfo US = CultureInfo.CreateSpecificCulture("en-US");
 
@@ -27,11 +26,10 @@ namespace SourceRecordingTool
         private SaveFileDialog saveProfileDialog;
         private VDMForm vdmForm;
         private AboutForm aboutForm;
+        private string jobsPath;
         private bool virtualDubRunning = false;
         private bool disableCustomEvents = false;
-        #endregion
 
-        #region Core
         public MainForm()
         {
             InitializeComponent();
@@ -213,50 +211,55 @@ namespace SourceRecordingTool
                 if (item != null)
                     continue;
 
-                if (File.Exists((fileName = String.Concat(TgaTextBox.Text, "\\", name)) + "_0000.tga") && File.Exists(fileName + "_.wav"))
+                fileName = String.Concat(TgaTextBox.Text, "\\", name);
+
+                string[] files = Directory.GetFiles(TgaTextBox.Text, name + "_*.tga");
+
+                if (files.Length == 0 || !File.Exists(fileName + "_.wav"))
+                    continue;
+
+                long tgaSize = new FileInfo(files[0]).Length;
+                long wavSize = new FileInfo(fileName + "_.wav").Length;
+                DateTime start = File.GetCreationTime(files[0]);
+                DateTime end = File.GetCreationTime(files[files.Length - 1]);
+                TimeSpan span = end - start;
+
+                FileStream wav = new FileStream(fileName + "_.wav", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                wav.Position = 40;
+
+                byte[] wavSizeBuf = new byte[4];
+                wav.Read(wavSizeBuf, 0, 4);
+                wav.Close();
+
+                item = new ListViewItem();
+                item.Text = name;
+                item.SubItems.Add(files.Length.ToString());
+
+                switch (CurrentProfile.TGAFPSDetectMode)
                 {
-                    string[] files = Directory.GetFiles(TgaTextBox.Text, name + "_*.tga");
-                    DateTime start = File.GetCreationTime(files[0]);
-                    DateTime end = File.GetCreationTime(files[files.Length - 1]);
-                    TimeSpan span = end - start;
-
-                    FileStream wav = new FileStream(fileName + "_.wav", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    wav.Position = 40;
-
-                    byte[] wavSizeBuf = new byte[4];
-                    wav.Read(wavSizeBuf, 0, 4);
-                    wav.Close();
-
-                    item = new ListViewItem();
-                    item.Text = name;
-                    item.SubItems.Add(files.Length.ToString());
-
-                    switch (CurrentProfile.TGAFPSDetectMode)
-                    {
-                        case 0:
-                            item.SubItems.Add(Math.Round((double)files.Length / (double)(BitConverter.ToInt32(wavSizeBuf, 0) / 44100d / 4d), 3, MidpointRounding.AwayFromZero).ToString(US));
-                            break;
-                        case 1:
-                            item.SubItems.Add(Math.Round((double)files.Length / (double)(BitConverter.ToInt32(wavSizeBuf, 0) / 44100d / 4d), 0, MidpointRounding.AwayFromZero).ToString(US));
-                            break;
-                        case 2:
-                            item.SubItems.Add((30d * Math.Round((double)files.Length / (double)(BitConverter.ToInt32(wavSizeBuf, 0) / 44100d / 4d) / 30d, MidpointRounding.AwayFromZero)).ToString(US));
-                            break;
-                        case 3:
-                            item.SubItems.Add((30d * Math.Pow(2d, Math.Round(Math.Log((double)files.Length / (double)(BitConverter.ToInt32(wavSizeBuf, 0) / 44100d / 4d) / 30d, 2d), MidpointRounding.AwayFromZero))).ToString(US));
-                            break;
-                    }
-
-                    item.SubItems.Add(start.ToString());
-                    item.SubItems.Add(span.ToString("hh\\:mm\\:ss"));
-                    item.SubItems.Add((files.Length / span.TotalSeconds).ToString("F2", US));
-                    item.Checked = true;
-
-                    TgaListView.Items.Add(item);
+                    case 0:
+                        item.SubItems.Add(Math.Round((double)files.Length / (double)(BitConverter.ToInt32(wavSizeBuf, 0) / 44100d / 4d), 3, MidpointRounding.AwayFromZero).ToString(US));
+                        break;
+                    case 1:
+                        item.SubItems.Add(Math.Round((double)files.Length / (double)(BitConverter.ToInt32(wavSizeBuf, 0) / 44100d / 4d), 0, MidpointRounding.AwayFromZero).ToString(US));
+                        break;
+                    case 2:
+                        item.SubItems.Add((30d * Math.Round((double)files.Length / (double)(BitConverter.ToInt32(wavSizeBuf, 0) / 44100d / 4d) / 30d, MidpointRounding.AwayFromZero)).ToString(US));
+                        break;
+                    case 3:
+                        item.SubItems.Add((30d * Math.Pow(2d, Math.Round(Math.Log((double)files.Length / (double)(BitConverter.ToInt32(wavSizeBuf, 0) / 44100d / 4d) / 30d, 2d), MidpointRounding.AwayFromZero))).ToString(US));
+                        break;
                 }
+
+                item.SubItems.Add((files.Length / span.TotalSeconds).ToString("F2"));
+                item.SubItems.Add(((files.Length * tgaSize + wavSize - 1) / 1024d / 1024d / 1024d + 1).ToString("F2") + " GB");
+                item.SubItems.Add(start.ToString());
+                item.SubItems.Add(span.ToString("hh\\:mm\\:ss"));
+                item.Checked = true;
+
+                TgaListView.Items.Add(item);
             }
         }
-        #endregion
 
         #region MainForm
         protected override void OnFormClosed(FormClosedEventArgs e)
@@ -278,18 +281,6 @@ namespace SourceRecordingTool
             string[] paths = (string[])drgevent.Data.GetData(DataFormats.FileDrop);
 
             OpenDemo(paths[0]);
-        }
-        #endregion
-
-        #region General
-        private void gameLabel_Click(object sender, EventArgs e)
-        {
-            FileSystem.Open(SRTGame.Common);
-        }
-
-        private void directXLabel_Click(object sender, EventArgs e)
-        {
-            FileSystem.Open("dxdiag.exe");
         }
         #endregion
 
@@ -316,7 +307,20 @@ namespace SourceRecordingTool
         #region Customization
         private void configLabel_Click(object sender, EventArgs e)
         {
-            FileSystem.OpenDirectory("moviefiles\\cfg");
+            if (ConfigComboBox.SelectedIndex > 0)
+                FileSystem.OpenExplorer("moviefiles\\cfg\\" + ConfigComboBox.SelectedItem);
+            else
+                FileSystem.OpenDirectory("moviefiles\\cfg");
+        }
+
+        private void ConfigComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            editButton.Enabled = ConfigComboBox.SelectedIndex > 0;
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            FileSystem.Open("moviefiles\\cfg\\" + ConfigComboBox.SelectedItem);
         }
 
         private void customLabel_Click(object sender, EventArgs e)
@@ -563,7 +567,7 @@ namespace SourceRecordingTool
 
             virtualDubRunning = true;
 
-            string jobsPath = Path.GetDirectoryName(CurrentProfile.VDubPath) + "\\SourceRecordingTool_jobs.txt";
+            jobsPath = Path.GetDirectoryName(CurrentProfile.VDubPath) + "\\SourceRecordingTool_jobs.txt";
             StreamWriter jobsStream = new StreamWriter(jobsPath);
 
             foreach (ListViewItem item in TgaListView.CheckedItems)
@@ -626,6 +630,7 @@ namespace SourceRecordingTool
         {
             ((Process)sender).Dispose();
             virtualDubRunning = false;
+            File.Delete(jobsPath);
 
             AfterRecording();
         }
@@ -634,11 +639,13 @@ namespace SourceRecordingTool
         #region Directories
         private void tgaLabel_Click(object sender, EventArgs e)
         {
+            Directory.CreateDirectory(TgaTextBox.Text);
             FileSystem.OpenDirectory(TgaTextBox.Text);
         }
 
         private void aviLabel_Click(object sender, EventArgs e)
         {
+            Directory.CreateDirectory(VideoTextBox.Text);
             FileSystem.OpenDirectory(VideoTextBox.Text);
         }
 
@@ -841,6 +848,11 @@ namespace SourceRecordingTool
         #endregion
 
         #region Edit
+        private void openCommonPathToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileSystem.OpenDirectory(SRTGame.Common);
+        }
+
         private void openLongNamePathToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileSystem.OpenDirectory(SRTGame.AllGames[GameComboBox.SelectedIndex].LongNamePath);
@@ -870,6 +882,8 @@ namespace SourceRecordingTool
 
                 foreach (string file in Directory.EnumerateFiles(TgaTextBox.Text, "*.wav"))
                     File.Delete(file);
+
+                RefreshTGASequences(true);
             }
         }
 
@@ -975,6 +989,7 @@ namespace SourceRecordingTool
 
         private void viewBackupFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Directory.CreateDirectory("backup");
             FileSystem.OpenDirectory("backup");
         }
 
