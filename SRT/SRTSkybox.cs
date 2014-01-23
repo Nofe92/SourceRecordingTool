@@ -23,7 +23,7 @@ namespace SourceRecordingTool
 
         static SRTSkybox()
         {
-            vtfcmdPath = String.Concat("moviefiles\\tools\\VTFLib\\", Environment.Is64BitProcess ? "x64" : "x86", "\\VTFCmd.exe");
+            vtfcmdPath = "moviefiles\\tools\\VTFLib\\" + (Environment.Is64BitProcess ? "x64" : "x86") + "\\VTFCmd.exe";
         }
 
         public static SRTSkybox FindSkyboxByName(string name)
@@ -71,15 +71,15 @@ namespace SourceRecordingTool
         {
             Process vtfcmd = new Process();
             vtfcmd.StartInfo.FileName = vtfcmdPath;
-            vtfcmd.StartInfo.Arguments = String.Concat("-exportformat bmp -file \"" + skybox.GetVTF(0), "\" -file \"", skybox.GetVTF(1), "\" -file \"", skybox.GetVTF(2), "\" -file \"", skybox.GetVTF(3), "\"");
+            vtfcmd.StartInfo.Arguments = "-exportformat bmp -file \"" + skybox.GetVTF(0) + "\" -file \"" + skybox.GetVTF(1) + "\" -file \"" + skybox.GetVTF(2) + "\" -file \"" + skybox.GetVTF(3) + "\"";
             vtfcmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             vtfcmd.Start();
             vtfcmd.WaitForExit();
 
-            string lfBmp = String.Concat(skybox.FileName, Sides[0], ".bmp");
-            string bkBmp = String.Concat(skybox.FileName, Sides[1], ".bmp");
-            string rtBmp = String.Concat(skybox.FileName, Sides[2], ".bmp");
-            string ftBmp = String.Concat(skybox.FileName, Sides[3], ".bmp");
+            string lfBmp = skybox.FileName + Sides[0] + ".bmp";
+            string bkBmp = skybox.FileName + Sides[1] + ".bmp";
+            string rtBmp = skybox.FileName + Sides[2] + ".bmp";
+            string ftBmp = skybox.FileName + Sides[3] + ".bmp";
 
             Image lf = Image.FromFile(lfBmp);
             Image bk = Image.FromFile(bkBmp);
@@ -131,12 +131,12 @@ namespace SourceRecordingTool
 
         public string GetVMT(int side)
         {
-            return String.Concat(FileName, Sides[side], ".vmt");
+            return FileName + Sides[side] + ".vmt";
         }
 
         public string GetVTF(int side)
         {
-            return String.Concat(FileName, Sides[side], ".vtf");
+            return FileName + Sides[side] + ".vtf";
         }
     }
 }

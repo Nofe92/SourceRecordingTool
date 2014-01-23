@@ -28,7 +28,7 @@ namespace SourceRecordingTool
 
         public string FullPath
         {
-            get { return String.Concat(path, "\\", name); }
+            get { return path + "\\" + name; }
         }
 
         public override string ToString()

@@ -63,7 +63,7 @@ namespace SourceRecordingTool
                 }
             }
 
-            MessageBox.Show("No Connection to update servers.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Dialogs.Error("No Connection to update servers.");
             return UpdateState.NoConnection;
         }
 
@@ -71,7 +71,7 @@ namespace SourceRecordingTool
         {
             if (String.IsNullOrEmpty(Changelog) || latestVersion == null)
             {
-                MessageBox.Show("No Connection to update servers.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Dialogs.Error("No Connection to update servers.");
                 return;
             }
 
@@ -79,7 +79,7 @@ namespace SourceRecordingTool
             {
                 if (update)
                 {
-                    updateForm.Text = String.Concat("Version ", latestVersion.ToString(), " available!");
+                    updateForm.Text = "Version " + latestVersion.ToString() + " available!";
                     updateForm.HeadlineLabel.Visible = true;
                     updateForm.RichTextBox.Dock = DockStyle.None;
                     updateForm.YesButton.Visible = true;

@@ -85,6 +85,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openCommonPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLongNamePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openShortNamePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -128,6 +129,7 @@
             this.DailyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EverytimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.restoreBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewBackupFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearBackupCacheToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -152,7 +154,6 @@
             this.selectNoneCustomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SkyboxPictureBox = new System.Windows.Forms.PictureBox();
             this.editButton = new System.Windows.Forms.Button();
-            this.openCommonPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tgaContextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.customContextMenuStrip.SuspendLayout();
@@ -723,6 +724,13 @@
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
             // 
+            // openCommonPathToolStripMenuItem
+            // 
+            this.openCommonPathToolStripMenuItem.Name = "openCommonPathToolStripMenuItem";
+            this.openCommonPathToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.openCommonPathToolStripMenuItem.Text = "Open Common Path";
+            this.openCommonPathToolStripMenuItem.Click += new System.EventHandler(this.openCommonPathToolStripMenuItem_Click);
+            // 
             // openLongNamePathToolStripMenuItem
             // 
             this.openLongNamePathToolStripMenuItem.Name = "openLongNamePathToolStripMenuItem";
@@ -954,7 +962,7 @@
             this.ShutDownToolStripMenuItem});
             this.afterRecordingToolStripMenuItem.Name = "afterRecordingToolStripMenuItem";
             this.afterRecordingToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
-            this.afterRecordingToolStripMenuItem.Text = "After Recording";
+            this.afterRecordingToolStripMenuItem.Text = "After Recording / Compiling";
             // 
             // DoNothingToolStripMenuItem
             // 
@@ -998,6 +1006,7 @@
             this.backupModeToolStripMenuItem,
             this.toolStripSeparator12,
             this.viewBackupFolderToolStripMenuItem,
+            this.restoreBackupToolStripMenuItem,
             this.clearBackupCacheToolStripMenuItem});
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
             this.backupToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
@@ -1046,6 +1055,13 @@
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
             this.toolStripSeparator12.Size = new System.Drawing.Size(172, 6);
+            // 
+            // restoreBackupToolStripMenuItem
+            // 
+            this.restoreBackupToolStripMenuItem.Name = "restoreBackupToolStripMenuItem";
+            this.restoreBackupToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.restoreBackupToolStripMenuItem.Text = "Restore Backup...";
+            this.restoreBackupToolStripMenuItem.Click += new System.EventHandler(this.restoreBackupToolStripMenuItem_Click);
             // 
             // viewBackupFolderToolStripMenuItem
             // 
@@ -1246,13 +1262,6 @@
             this.editButton.UseVisualStyleBackColor = true;
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
-            // openCommonPathToolStripMenuItem
-            // 
-            this.openCommonPathToolStripMenuItem.Name = "openCommonPathToolStripMenuItem";
-            this.openCommonPathToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.openCommonPathToolStripMenuItem.Text = "Open Common Path";
-            this.openCommonPathToolStripMenuItem.Click += new System.EventHandler(this.openCommonPathToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1432,6 +1441,7 @@
         private System.Windows.Forms.ColumnHeader sizeColumnHeader;
         private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.ToolStripMenuItem openCommonPathToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem restoreBackupToolStripMenuItem;
     }
 }
 

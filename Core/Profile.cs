@@ -257,7 +257,7 @@ namespace SourceRecordingTool
                     break;
             }
 
-            mainForm.ResolutionComboBox.Text = String.Concat(Width, "x", Height);
+            mainForm.ResolutionComboBox.Text = Width + "x" + Height;
             mainForm.FramerateComboBox.Text = Framerate.ToString();
 
             if (Config == "")

@@ -45,7 +45,7 @@ namespace SourceRecordingTool
 
         private void Initialize()
         {
-            Program.SetWindowTheme(this.TgaListView.Handle, "explorer", null);
+            Win32.SetWindowTheme(this.TgaListView.Handle, "explorer", null);
 
             openDemoDialog = new OpenFileDialog();
             openProfileDialog = new OpenFileDialog();
@@ -188,7 +188,7 @@ namespace SourceRecordingTool
             }
 
             if (Directory.Exists("backup"))
-                clearBackupCacheToolStripMenuItem.Text = String.Concat("Clear Backup cache (", (new DirectoryInfo("backup").EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(f => f.Length) - 1) / 1024 / 1024 + 1, " MB)...");
+                clearBackupCacheToolStripMenuItem.Text = "Clear Backup cache (" + ((new DirectoryInfo("backup").EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(f => f.Length) - 1) / 1024 / 1024 + 1).ToString() + " MB)...";
             else
                 clearBackupCacheToolStripMenuItem.Text = "Clear Backup cache...";
         }
@@ -211,7 +211,7 @@ namespace SourceRecordingTool
                 if (item != null)
                     continue;
 
-                fileName = String.Concat(TgaTextBox.Text, "\\", name);
+                fileName = TgaTextBox.Text + "\\" + name;
 
                 string[] files = Directory.GetFiles(TgaTextBox.Text, name + "_*.tga");
 
@@ -408,7 +408,7 @@ namespace SourceRecordingTool
         private void customFileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
             disableCustomEvents = true;
-            if (!Directory.Exists(String.Concat("moviefiles\\", sender == customFileSystemWatcher ? "custom_disabled\\" : "custom\\", e.Name)) && !File.Exists(String.Concat("moviefiles\\", sender == customFileSystemWatcher ? "custom_disabled\\" : "custom\\", e.Name)))
+            if (!Directory.Exists("moviefiles\\" + (sender == customFileSystemWatcher ? "custom_disabled\\" : "custom\\") + e.Name) && !File.Exists("moviefiles\\" + (sender == customFileSystemWatcher ? "custom_disabled\\" : "custom\\") + e.Name))
                 CustomCheckedListBox.Items.Remove(e.Name);
             disableCustomEvents = false;
         }
@@ -426,17 +426,17 @@ namespace SourceRecordingTool
         private void viewCustomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CustomCheckedListBox.GetItemChecked(CustomCheckedListBox.SelectedIndex))
-                FileSystem.OpenExplorer(String.Concat("moviefiles\\custom\\", (string)CustomCheckedListBox.SelectedItem));
+                FileSystem.OpenExplorer("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
             else
-                FileSystem.OpenExplorer(String.Concat("moviefiles\\custom_disabled\\", (string)CustomCheckedListBox.SelectedItem));
+                FileSystem.OpenExplorer("moviefiles\\custom_disabled\\" + (string)CustomCheckedListBox.SelectedItem);
         }
 
         private void viewContentsCustomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CustomCheckedListBox.GetItemChecked(CustomCheckedListBox.SelectedIndex))
-                FileSystem.Open(String.Concat("moviefiles\\custom\\", (string)CustomCheckedListBox.SelectedItem));
+                FileSystem.Open("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
             else
-                FileSystem.Open(String.Concat("moviefiles\\custom_disabled\\", (string)CustomCheckedListBox.SelectedItem));
+                FileSystem.Open("moviefiles\\custom_disabled\\" + (string)CustomCheckedListBox.SelectedItem);
         }
 
         private void selectAllCustomToolStripMenuItem_Click(object sender, EventArgs e)
@@ -460,6 +460,7 @@ namespace SourceRecordingTool
 
         private void skyboxPictureBox_Click(object sender, EventArgs e)
         {
+            CurrentProfile.UpdateProfile(this);
             SRTSkybox.SkyboxForm.ShowDialog();
             CurrentProfile.UpdateForm(this);
         }
@@ -518,7 +519,7 @@ namespace SourceRecordingTool
                     Application.SetSuspendState(PowerState.Hibernate, false, false);
                     break;
                 case 4:
-                    Program.ExitWindowsEx(1, 0);
+                    Win32.ExitWindowsEx(1, 0);
                     break;
             }
         }
@@ -529,7 +530,7 @@ namespace SourceRecordingTool
         {
             if (TgaListView.CheckedItems.Count == 0)
             {
-                MessageBox.Show("No TGA-Sequences checked.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Dialogs.Warning("No TGA-Sequences checked.");
                 return;
             }
 
@@ -561,7 +562,7 @@ namespace SourceRecordingTool
 
             if (virtualDubRunning)
             {
-                MessageBox.Show("VirtualDub Compiler is already running.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Dialogs.Warning("VirtualDub Compiler is already running.");
                 return;
             }
 
@@ -572,10 +573,10 @@ namespace SourceRecordingTool
 
             foreach (ListViewItem item in TgaListView.CheckedItems)
             {
-                string firstFrame = String.Concat(TgaTextBox.Text, "\\", item.Text, "_0000.tga");
+                string firstFrame = TgaTextBox.Text + "\\" + item.Text + "_0000.tga";
 
                 jobsStream.WriteLine("VirtualDub.Open(\"{0}\",\"\",0);", firstFrame.Replace("\\", "\\\\"));
-                jobsStream.WriteLine("VirtualDub.audio.SetSource(\"{0}\", \"\");", (String.Concat(TgaTextBox.Text, "\\", item.Text, "_.WAV")).Replace("\\", "\\\\"));
+                jobsStream.WriteLine("VirtualDub.audio.SetSource(\"{0}\", \"\");", (TgaTextBox.Text + "\\" + item.Text + "_.WAV").Replace("\\", "\\\\"));
                 jobsStream.WriteLine("VirtualDub.audio.SetMode(0);");
                 jobsStream.WriteLine("VirtualDub.audio.SetInterleave(1,500,1,0,0);");
                 jobsStream.WriteLine("VirtualDub.audio.SetClipMode(1,1);");
@@ -612,7 +613,7 @@ namespace SourceRecordingTool
                 jobsStream.WriteLine("VirtualDub.subset.AddRange(0,{0});", item.SubItems[1].Text);
                 jobsStream.WriteLine("VirtualDub.video.SetRange();");
                 jobsStream.WriteLine("VirtualDub.project.ClearTextInfo();");
-                jobsStream.WriteLine("VirtualDub.SaveAVI(\"{0}\");", (String.Concat(VideoTextBox.Text, "\\", File.GetCreationTime(firstFrame).ToString("yyyy-MM-dd HH-mm-ss"), " ", item.Text, ".avi")).Replace("\\", "\\\\"));
+                jobsStream.WriteLine("VirtualDub.SaveAVI(\"{0}\");", (VideoTextBox.Text + "\\" + File.GetCreationTime(firstFrame).ToString("yyyy-MM-dd HH-mm-ss") + " " + item.Text + ".avi").Replace("\\", "\\\\"));
                 jobsStream.WriteLine("VirtualDub.Close();");
                 jobsStream.WriteLine();
             }
@@ -620,7 +621,7 @@ namespace SourceRecordingTool
             jobsStream.Close();
 
             Process vdub = new Process();
-            vdub.StartInfo = new ProcessStartInfo(CurrentProfile.VDubPath, String.Concat("/s \"", jobsPath, "\" /x"));
+            vdub.StartInfo = new ProcessStartInfo(CurrentProfile.VDubPath, "/s \"" + jobsPath + "\" /x");
             vdub.EnableRaisingEvents = true;
             vdub.Exited += AfterCompiling;
             vdub.Start();
@@ -709,7 +710,7 @@ namespace SourceRecordingTool
         private void viewTgaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in TgaListView.SelectedItems)
-                FileSystem.OpenExplorer(String.Concat(TgaTextBox.Text, "\\", item.Text, "_0000.tga"));
+                FileSystem.OpenExplorer(TgaTextBox.Text + "\\" + item.Text + "_0000.tga");
         }
 
         private void deleteTgaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -727,14 +728,14 @@ namespace SourceRecordingTool
 
             items.Append(TgaListView.SelectedItems[TgaListView.SelectedItems.Count - 1].Text);
 
-            if (MessageBox.Show("Are you sure to permanently delete the following TGA-Sequences: " + items.ToString(), "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (Dialogs.Question("Are you sure to permanently delete the following TGA-Sequences: " + items.ToString()))
             {
                 foreach (ListViewItem item in TgaListView.SelectedItems)
                 {
                     foreach (string file in Directory.EnumerateFiles(TgaTextBox.Text, item.Text + "_*.tga"))
                         File.Delete(file);
 
-                    File.Delete(String.Concat(TgaTextBox.Text, "\\", item.Text, "_.wav"));
+                    File.Delete(TgaTextBox.Text + "\\" + item.Text + "_.wav");
 
                     item.Remove();
                 }
@@ -779,7 +780,7 @@ namespace SourceRecordingTool
         {
             if (!path.EndsWith(".dem"))
             {
-                MessageBox.Show("Invalid demo file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Dialogs.Error("Invalid demo file.");
                 return;
             }
 
@@ -805,7 +806,7 @@ namespace SourceRecordingTool
                 }
             }
 
-            MessageBox.Show("Game not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Dialogs.Error("Game not found.");
         }
 
         private void loadFromFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -834,7 +835,7 @@ namespace SourceRecordingTool
 
         private void resetAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure to reset everything?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (!Dialogs.Question("Are you sure to reset everything?"))
                 return;
 
             CurrentProfile.LoadDefault(true);
@@ -875,7 +876,7 @@ namespace SourceRecordingTool
 
         private void deleteTGASequencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure to permanently delete all TGA-Sequences?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (Dialogs.Question("Are you sure to permanently delete all TGA-Sequences?"))
             {
                 foreach (string file in Directory.EnumerateFiles(TgaTextBox.Text, "*.tga"))
                     File.Delete(file);
@@ -889,7 +890,7 @@ namespace SourceRecordingTool
 
         private void deleteAVIVideosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure to permanently delete all AVI-Videos?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (Dialogs.Question("Are you sure to permanently delete all AVI-Videos?"))
             {
                 foreach (string file in Directory.EnumerateFiles(VideoTextBox.Text, "*.avi"))
                     File.Delete(file);
@@ -898,7 +899,7 @@ namespace SourceRecordingTool
 
         private void deleteMP4VideosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure to permanently delete all MP4-Videos?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (Dialogs.Question("Are you sure to permanently delete all MP4-Videos?"))
             {
                 foreach (string file in Directory.EnumerateFiles(VideoTextBox.Text, "*.mp4"))
                     File.Delete(file);
@@ -993,11 +994,46 @@ namespace SourceRecordingTool
             FileSystem.OpenDirectory("backup");
         }
 
+        private void restoreBackupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] restorePoints = Directory.GetDirectories("backup\\" + SRTGame.AllGames[GameComboBox.SelectedIndex].ShortName, "????-??-??");
+
+            if (restorePoints.Length == 0)
+            {
+                Dialogs.Error("No restore points have been found. Make sure you selected the right game and the game has been started before.");
+                return;
+            }
+
+            if (!Dialogs.Question("Are you sure to restore your backup?\r\nWARNING: THIS WILL OVERWRITE YOUR CURRENT FILES (addons, cfg & custom)"))
+                return;
+
+            string addons = CurrentProfile.Game.ShortNamePath + "\\addons";
+            string cfg = CurrentProfile.Game.ShortNamePath + "\\cfg";
+            string custom = CurrentProfile.Game.ShortNamePath + "\\custom";
+
+            string lastAddons = restorePoints[restorePoints.Length - 1] + "\\addons";
+            string lastCfg = restorePoints[restorePoints.Length - 1] + "\\cfg";
+            string lastCustom = restorePoints[restorePoints.Length - 1] + "\\custom";
+
+            DirectoryEx.Delete(addons);
+            DirectoryEx.Delete(cfg);
+            DirectoryEx.Delete(custom);
+
+            if (DirectoryEx.Exists(lastAddons))
+                DirectoryEx.Copy(lastAddons, addons);
+
+            if (DirectoryEx.Exists(lastCfg))
+                DirectoryEx.Copy(lastCfg, cfg);
+
+            if (DirectoryEx.Exists(lastCustom))
+                DirectoryEx.Copy(lastCustom, custom);
+        }
+
         private void clearBackupCacheToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure to permanently delete all backups?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (Dialogs.Question("Are you sure to permanently delete all backups?"))
             {
-                FileSystem.DeleteDirectory("backup");
+                Directory.Delete("backup", true);
                 RefreshDatarate();
             }
         }
@@ -1035,7 +1071,7 @@ namespace SourceRecordingTool
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Updater.CheckForUpdates() == Updater.UpdateState.Latest)
-                MessageBox.Show("Your version is up-to-date", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Dialogs.Information("Your version is up-to-date");
         }
         private void viewChangelogToolStripMenuItem_Click(object sender, EventArgs e)
         {

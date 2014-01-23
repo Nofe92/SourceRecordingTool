@@ -30,7 +30,7 @@ namespace SourceRecordingTool
         {
             if (startNumericUpDown.Value >= endNumericUpDown.Value)
             {
-                MessageBox.Show("Start tick must not be greater than end tick.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Dialogs.Warning("Start tick must not be greater than end tick.");
                 return;
             }
 

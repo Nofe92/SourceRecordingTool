@@ -21,7 +21,7 @@ namespace SourceRecordingTool
 
         public string FullName
         {
-            get { return String.Concat(DirectoryName, "\\", Name); }
+            get { return DirectoryName+ "\\"+ Name; }
         }
     }
 }

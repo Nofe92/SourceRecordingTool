@@ -28,8 +28,8 @@ namespace SourceRecordingTool
 
         public void Initialize()
         {
-            Program.SetWindowTheme(demosListView.Handle, "explorer", null);
-            Program.SetWindowTheme(rangesListView.Handle, "explorer", null);
+            Win32.SetWindowTheme(demosListView.Handle, "explorer", null);
+            Win32.SetWindowTheme(rangesListView.Handle, "explorer", null);
 
             pathTextBox.Text = MainForm.CurrentProfile.Game.ShortNamePath;
             filterTextBox.Select();
@@ -277,13 +277,13 @@ namespace SourceRecordingTool
         {
             if (RecordingRanges.Count == 0)
             {
-                MessageBox.Show("No recording ranges added.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Dialogs.Warning("No recording ranges added.");
                 return;
             }
 
             if (StartGameManager.Running)
             {
-                MessageBox.Show("Game is already running", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Dialogs.Warning("Game is already running");
                 return;
             }
 
