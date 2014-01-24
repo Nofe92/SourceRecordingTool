@@ -20,6 +20,7 @@ namespace SourceRecordingTool
         private List<ListViewItem> demoFilesFilter = new List<ListViewItem>();
         private RecordingRangeDialog recordingRangeDialog = new RecordingRangeDialog();
         private int lastColumnIndex = -1;
+        private bool reverse = false;
         
         public VDMForm()
         {
@@ -69,8 +70,14 @@ namespace SourceRecordingTool
                 }
             }
 
+            CreateListViewItemCache();
+            RefreshDemos();
+        }
+
+        private void CreateListViewItemCache()
+        {
             listViewItemCache = new ListViewItem[demoFiles.Count];
-            
+
             for (int i = 0; i < demoFiles.Count; i++)
             {
                 DemoFile demo = demoFiles[i];
@@ -88,8 +95,6 @@ namespace SourceRecordingTool
                     demo.NetworkProtocol.ToString(),
                 }) { Tag = demoFiles[i] };
             }
-
-            RefreshDemos();
         }
 
         private void RefreshDemos()
@@ -111,28 +116,47 @@ namespace SourceRecordingTool
                     )
                     demoFilesFilter.Add(listViewItemCache[i]);
 
-            demosListView.VirtualListSize = demoFilesFilter.Count;
-            addRangeButton.Enabled = false;
-        }
-
-        private void AddRange()
-        {
-            DemoFile demo = (DemoFile)demoFilesFilter[demosListView.SelectedIndices[0]].Tag;
-
-            recordingRangeDialog.Text = "Add Recording Range";
-            recordingRangeDialog.demoNameTextBox.Text = demo.Name;
-            recordingRangeDialog.startNumericUpDown.Maximum = demo.Ticks - 1;
-            recordingRangeDialog.endNumericUpDown.Maximum = demo.Ticks - 1;
-            recordingRangeDialog.startNumericUpDown.Value = 0;
-            recordingRangeDialog.endNumericUpDown.Value = demo.Ticks - 1;
-
-            if (recordingRangeDialog.ShowDialog() == DialogResult.OK)
+            switch (lastColumnIndex)
             {
-                RecordingRanges.Add(new RecordingRange(demo.DirectoryName, demo.Name, (int)recordingRangeDialog.startNumericUpDown.Value, (int)recordingRangeDialog.endNumericUpDown.Value, demo.Ticks - 1));
-                rangesListView.VirtualListSize = RecordingRanges.Count;
-                editRangeButton.Enabled = false;
-                deleteRangeButton.Enabled = false;
+                /*
+                case 0:
+                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).Name.CompareTo(((DemoFile)b.Tag).Name));
+                    break;*/
+                case 1:
+                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).ServerName.CompareTo(((DemoFile)b.Tag).ServerName));
+                    break;
+                case 2:
+                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).ClientName.CompareTo(((DemoFile)b.Tag).ClientName));
+                    break;
+                case 3:
+                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).MapName.CompareTo(((DemoFile)b.Tag).MapName));
+                    break;
+                case 4:
+                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).GameDirectory.CompareTo(((DemoFile)b.Tag).GameDirectory));
+                    break;
+                case 5:
+                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).PlaybackTime.CompareTo(((DemoFile)b.Tag).PlaybackTime));
+                    break;
+                case 6:
+                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).Ticks.CompareTo(((DemoFile)b.Tag).Ticks));
+                    break;
+                case 7:
+                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).NetworkProtocol.CompareTo(((DemoFile)b.Tag).DemoProtocol));
+                    break;
+                case 8:
+                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).NetworkProtocol.CompareTo(((DemoFile)b.Tag).NetworkProtocol));
+                    break;
             }
+
+            if (reverse)
+                demoFilesFilter.Reverse();
+
+            if (demosListView.VirtualListSize == demoFilesFilter.Count)
+                demosListView.RedrawItems(0, demosListView.Items.Count - 1, false);
+            else
+                demosListView.VirtualListSize = demoFilesFilter.Count;
+
+            demosListView_SelectedIndexChanged(null, null);
         }
 
         private void EditRange()
@@ -195,46 +219,12 @@ namespace SourceRecordingTool
 
         private void demosListView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            if (e.Column == lastColumnIndex)
-            {
-                demoFilesFilter.Reverse();
-                demosListView.RedrawItems(0, demosListView.Items.Count - 1, false);
-                return;
-            }
+            if (lastColumnIndex == e.Column)
+                reverse = !reverse;
+            else
+                lastColumnIndex = e.Column;
 
-            switch (e.Column)
-            {
-                case 0:
-                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).Name.CompareTo(((DemoFile)b.Tag).Name));
-                    break;
-                case 1:
-                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).ServerName.CompareTo(((DemoFile)b.Tag).ServerName));
-                    break;
-                case 2:
-                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).ClientName.CompareTo(((DemoFile)b.Tag).ClientName));
-                    break;
-                case 3:
-                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).MapName.CompareTo(((DemoFile)b.Tag).MapName));
-                    break;
-                case 4:
-                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).GameDirectory.CompareTo(((DemoFile)b.Tag).GameDirectory));
-                    break;
-                case 5:
-                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).PlaybackTime.CompareTo(((DemoFile)b.Tag).PlaybackTime));
-                    break;
-                case 6:
-                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).Ticks.CompareTo(((DemoFile)b.Tag).Ticks));
-                    break;
-                case 7:
-                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).NetworkProtocol.CompareTo(((DemoFile)b.Tag).DemoProtocol));
-                    break;
-                case 8:
-                    demoFilesFilter.Sort((a, b) => ((DemoFile)a.Tag).NetworkProtocol.CompareTo(((DemoFile)b.Tag).NetworkProtocol));
-                    break;
-            }
-
-            lastColumnIndex = e.Column;
-            demosListView.RedrawItems(0, demosListView.Items.Count - 1, false);
+            RefreshDemos();
         }
 
         private void demosListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
@@ -245,6 +235,51 @@ namespace SourceRecordingTool
         private void demosListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             addRangeButton.Enabled = demosListView.SelectedIndices.Count == 1;
+        }
+
+        private void demosContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            if (demosListView.SelectedIndices.Count == 0)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            openDemosToolStripMenuItem.Visible = demosListView.SelectedIndices.Count == 1;
+            viewDemosToolStripMenuItem.Visible = demosListView.SelectedIndices.Count == 1;
+        }
+
+        private void openDemosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (demosListView.SelectedIndices.Count != 1)
+                return;
+
+            StartGameManager.StartASync(((DemoFile)(demoFilesFilter[demosListView.SelectedIndices[0]].Tag)).FullName);
+        }
+
+        private void viewDemosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (demosListView.SelectedIndices.Count != 1)
+                return;
+
+            FileSystem.OpenExplorer(((DemoFile)(demoFilesFilter[demosListView.SelectedIndices[0]].Tag)).FullName);
+        }
+
+        private void deleteDemosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Dialogs.Question("Are you sure to delete the selected demos?"))
+                return;
+
+            for (int i = demosListView.SelectedIndices.Count - 1; i >= 0; i--)
+            {
+                DemoFile demoFile = (DemoFile)demoFilesFilter[demosListView.SelectedIndices[i]].Tag;
+
+                FileEx.Delete(demoFile.FullName);
+                demoFiles.Remove(demoFile);
+            }
+
+            CreateListViewItemCache();
+            RefreshDemos();
         }
 
         private void rangesListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
@@ -258,9 +293,54 @@ namespace SourceRecordingTool
             deleteRangeButton.Enabled = rangesListView.SelectedIndices.Count > 0;
         }
 
+        private void rangesContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            if (rangesListView.SelectedIndices.Count == 0)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            viewRangesToolStripMenuItem.Visible = rangesListView.SelectedIndices.Count == 1;
+            editRangesToolStripMenuItem.Visible = rangesListView.SelectedIndices.Count == 1;
+        }
+
+        private void viewRangesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (rangesListView.SelectedIndices.Count != 1)
+                return;
+
+            FileSystem.OpenExplorer(RecordingRanges[rangesListView.SelectedIndices[0]].FullPath);
+        }
+
+        private void editRangesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditRange();
+        }
+
+        private void deleteRangesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteRange();
+        }
+
         private void addRangeButton_Click(object sender, EventArgs e)
         {
-            AddRange();
+            DemoFile demo = (DemoFile)demoFilesFilter[demosListView.SelectedIndices[0]].Tag;
+
+            recordingRangeDialog.Text = "Add Recording Range";
+            recordingRangeDialog.demoNameTextBox.Text = demo.Name;
+            recordingRangeDialog.startNumericUpDown.Maximum = demo.Ticks - 1;
+            recordingRangeDialog.endNumericUpDown.Maximum = demo.Ticks - 1;
+            recordingRangeDialog.startNumericUpDown.Value = 0;
+            recordingRangeDialog.endNumericUpDown.Value = demo.Ticks - 1;
+
+            if (recordingRangeDialog.ShowDialog() == DialogResult.OK)
+            {
+                RecordingRanges.Add(new RecordingRange(demo.DirectoryName, demo.Name, (int)recordingRangeDialog.startNumericUpDown.Value, (int)recordingRangeDialog.endNumericUpDown.Value, demo.Ticks - 1));
+                rangesListView.VirtualListSize = RecordingRanges.Count;
+                editRangeButton.Enabled = false;
+                deleteRangeButton.Enabled = false;
+            }
         }
 
         private void editRangeButton_Click(object sender, EventArgs e)
@@ -288,42 +368,6 @@ namespace SourceRecordingTool
             }
 
             DialogResult = DialogResult.OK;
-        }
-
-        private void demosContextMenuStrip_Opening(object sender, CancelEventArgs e)
-        {
-            e.Cancel = demosListView.SelectedIndices.Count != 1;
-        }
-
-        private void viewDemosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (demosListView.SelectedIndices.Count != 1)
-                return;
-
-            FileSystem.OpenExplorer(((DemoFile)(demoFilesFilter[demosListView.SelectedIndices[0]].Tag)).FullName);
-        }
-
-        private void rangesContextMenuStrip_Opening(object sender, CancelEventArgs e)
-        {
-            e.Cancel = rangesListView.SelectedIndices.Count != 1;
-        }
-
-        private void viewRangesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (rangesListView.SelectedIndices.Count != 1)
-                return;
-
-            FileSystem.OpenExplorer(RecordingRanges[rangesListView.SelectedIndices[0]].FullPath);
-        }
-
-        private void editRangesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EditRange();
-        }
-
-        private void deleteRangesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DeleteRange();
         }
     }
 }

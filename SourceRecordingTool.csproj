@@ -73,17 +73,17 @@
     <Compile Include="Core\FileEx.cs" />
     <Compile Include="Core\PathEx.cs" />
     <Compile Include="Dialogs\Dialogs.cs" />
+    <Compile Include="Forms\RichTextBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RichTextBoxForm.Designer.cs">
+      <DependentUpon>RichTextBoxForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SRT\SRTSkybox.cs" />
     <Compile Include="VDM\DemoFile.cs" />
     <Compile Include="Core\FileSystem.cs" />
     <Compile Include="Core\StartGameManager.cs" />
     <Compile Include="SRT\SRTGame.cs" />
-    <Compile Include="Forms\AboutForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AboutForm.Designer.cs">
-      <DependentUpon>AboutForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\RecordingRangeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,12 +103,6 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UpdateForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\UpdateForm.Designer.cs">
-      <DependentUpon>UpdateForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\VDMForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,9 +114,6 @@
     <Compile Include="VDM\RecordingRange.cs" />
     <Compile Include="Updater\Updater.cs" />
     <Compile Include="Win32.cs" />
-    <EmbeddedResource Include="Forms\AboutForm.resx">
-      <DependentUpon>AboutForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -130,8 +121,8 @@
       <DependentUpon>RecordingRangeDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UpdateForm.resx">
-      <DependentUpon>UpdateForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\RichTextBoxForm.resx">
+      <DependentUpon>RichTextBoxForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\VDMForm.resx">
       <DependentUpon>VDMForm.cs</DependentUpon>

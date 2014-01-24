@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Permissions;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -12,18 +13,16 @@ namespace SourceRecordingTool
     public static class StartGameManager
     {
         public static List<RecordingRange> RecordingRanges = new List<RecordingRange>();
-        public static string Demo;
-        public static bool Running = false;
-
         private static List<RecordingRange> localRecordingRange = new List<RecordingRange>();
+
+        public static bool Running = false;
         private static List<string> vdmFileList = new List<string>();
         private static Profile profile;
         private static SRTGame game;
-
+        private static string demo;
         private static string addons;
         private static string cfg;
         private static string custom;
-
         private static RegistryKey registryKey;
         private static string[] regValueNames;
         private static object[] regValues;
@@ -43,6 +42,39 @@ namespace SourceRecordingTool
             Running = true;
             Thread startThread = new Thread(Start);
             startThread.Start();
+        }
+
+        public static void StartASync(string demoFile)
+        {
+            if (!demoFile.EndsWith(".dem"))
+            {
+                Dialogs.Error("Invalid demo file.");
+                return;
+            }
+
+            byte[] gameBuffer = new byte[260];
+
+            using (FileStream demoFileStream = new FileStream(demoFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                demoFileStream.Position = 8 + 4 + 4 + 3 * 260;
+                demoFileStream.Read(gameBuffer, 0, 260);
+            }
+
+            string shortName = Encoding.ASCII.GetString(gameBuffer).Trim('\0');
+
+            for (int i = 0; i < SRTGame.AllGames.Length; i++)
+            {
+                if (SRTGame.AllGames[i].ShortName == shortName)
+                {
+                    MainForm.CurrentProfile.GameIndex = i;
+                    demo = demoFile;
+                    StartASync();
+
+                    return;
+                }
+            }
+
+            Dialogs.Error("Game not found.");
         }
 
         private static void Start()
@@ -409,10 +441,10 @@ namespace SourceRecordingTool
                 writer.WriteLine();
             }
 
-            if (Demo != null)
+            if (demo != null)
             {
-                writer.WriteLine("playdemo \"{0}\"", Demo);
-                Demo = null;
+                writer.WriteLine("playdemo \"{0}\"", demo);
+                demo = null;
             }
 
             writer.Close();
@@ -443,7 +475,7 @@ namespace SourceRecordingTool
         private static void CreateVDM()
         {
             if (RecordingRanges.Count > 0)
-                Demo = RecordingRanges[0].FullPath;
+                demo = RecordingRanges[0].FullPath;
 
             while (RecordingRanges.Count > 0)
             {

@@ -25,7 +25,6 @@ namespace SourceRecordingTool
         private OpenFileDialog openProfileDialog;
         private SaveFileDialog saveProfileDialog;
         private VDMForm vdmForm;
-        private AboutForm aboutForm;
         private string jobsPath;
         private bool virtualDubRunning = false;
         private bool disableCustomEvents = false;
@@ -61,7 +60,6 @@ namespace SourceRecordingTool
             saveProfileDialog.Title = "Save Profile";
 
             vdmForm = new VDMForm();
-            aboutForm = new AboutForm();
 
             Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             Text = "Aron's Source Recording Tool " + Updater.currentVersion.ToString();
@@ -778,35 +776,9 @@ namespace SourceRecordingTool
 
         private void OpenDemo(string path)
         {
-            if (!path.EndsWith(".dem"))
-            {
-                Dialogs.Error("Invalid demo file.");
-                return;
-            }
-
-            byte[] gameBuffer = new byte[260];
-
-            FileStream demo = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            demo.Position = 8 + 4 + 4 + 3 * 260;
-            demo.Read(gameBuffer, 0, 260);
-
-            string shortName = Encoding.ASCII.GetString(gameBuffer).Trim('\0');
-
-            for (int i = 0; i < SRTGame.AllGames.Length; i++)
-            {
-                if (SRTGame.AllGames[i].ShortName == shortName)
-                {
-                    CurrentProfile.UpdateProfile(this);
-                    CurrentProfile.GameIndex = i;
-                    CurrentProfile.UpdateForm(this);
-
-                    StartGameManager.Demo = path;
-                    StartGameManager.StartASync();
-                    return;
-                }
-            }
-
-            Dialogs.Error("Game not found.");
+            CurrentProfile.UpdateProfile(this);
+            StartGameManager.StartASync(path);
+            CurrentProfile.UpdateForm(this);
         }
 
         private void loadFromFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -939,18 +911,14 @@ namespace SourceRecordingTool
 
         public void EnableRecordingToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            bool enabled = EnableRecordingToolStripMenuItem.Checked;
-            
-            ConfigExecutionOnRecordToolStripMenuItem.Enabled = enabled;
+            ConfigExecutionOnRecordToolStripMenuItem.Enabled = EnableRecordingToolStripMenuItem.Checked;
         }
 
         public void EnableBindsToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            bool enabled = EnableBindsToolStripMenuItem.Checked;
-
-            WireframeWorkaroundToolStripMenuItem.Enabled = enabled;
-            DemoPlaybackFeaturesToolStripMenuItem.Enabled = enabled;
-            ThirdPersonFeaturesToolStripMenuItem.Enabled = enabled;
+            WireframeWorkaroundToolStripMenuItem.Enabled = EnableBindsToolStripMenuItem.Checked;
+            DemoPlaybackFeaturesToolStripMenuItem.Enabled = EnableBindsToolStripMenuItem.Checked;
+            ThirdPersonFeaturesToolStripMenuItem.Enabled = EnableBindsToolStripMenuItem.Checked;
         }
 
         private void afterRecording_Changed(object sender, EventArgs e)
@@ -1070,12 +1038,12 @@ namespace SourceRecordingTool
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Updater.CheckForUpdates() == Updater.UpdateState.Latest)
+            if (Updater.CheckForUpdates() == UpdateState.Latest)
                 Dialogs.Information("Your version is up-to-date");
         }
         private void viewChangelogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Updater.ShowUpdateForm(false);
+            Updater.ShowChangelogForm();
         }
 
         private void forumToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1085,7 +1053,66 @@ namespace SourceRecordingTool
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            aboutForm.ShowDialog();
+            RichTextBoxForm form = new RichTextBoxForm("About",
+                "Contact\r\n" +
+                "\tE-Mail:\thl3mukkel@gmail.com\r\n" +
+                "\tYouTube:\thttp://www.youtube.com/hl2mukkel\r\n" +
+                "\tProject Site:\thttps://sourceforge.net/p/sourcerecordingtool/\r\n" +
+                "\r\n" +
+                "Core\r\n" +
+                "\tDesign\t- Aron\r\n" +
+                "\tCode\t- Aron\r\n" +
+                "\tScripts\t- Aron\r\n" +
+                "\r\n" +
+                "Config\r\n" +
+                "\tgeneric-movie.cfg\t- Aron\r\n" +
+                "\tgeneric-play.cfg\t- Aron\r\n" +
+                "\ttf2-movie.cfg\t- Aron\r\n" +
+                "\ttf2-play.cfg\t- Aron\r\n" +
+                "\r\n" +
+                "Custom\r\n" +
+                "\ttf2-moviehud\t- python\r\n" +
+                "\ttf2-no_sniper_crosshair\t- Aron\r\n" +
+                "\ttf2-no_sniper_dot\t- Aron\r\n" +
+                "\ttf2-pldx_particles\t- Bolty\r\n" +
+                "\r\n" +
+                "Skybox\r\n" +
+                "\tDesert\t- komaokc\r\n" +
+                "\tGalaxy\t- komaokc\r\n" +
+                "\tSky41\t- komaokc\r\n" +
+                "\tSky56\t- komaokc\r\n" +
+                "\r\n" +
+                "Tools\r\n" +
+                "\tVTFLib\t- Neil Jedrzejewski & Ryan Gregg\r\n" +
+                "\tLagarith Lossless Codec\t- Sir_Lagsalot\r\n" +
+                "\tVirtualDub\t- Avery Lee\r\n" +
+                "\r\n" +
+                "Thanks to\r\n" +
+                "\tValve\t- for making an awesome content delivery system!\r\n" +
+                "\tKaiza\t- for betatesting\r\n" +
+                "\r\n" +
+                "External Sources\r\n" +
+                "\thttp://en.wikipedia.org/wiki/Category:Source_engine_games\r\n" +
+                "\thttp://forums.steampowered.com/forums/showthread.php?t=1444946\r\n" +
+                "\thttp://forums.steampowered.com/forums/showthread.php?t=1445189\r\n" +
+                "\thttp://nemesis.thewavelength.net/index.php?p=40\r\n" +
+                "\thttp://teamfortress.tv/forum/thread/5119/1\r\n" +
+                "\thttp://tf2wiki.net/wiki/Ultra_high_settings\r\n" +
+                "\thttp://whisper.ausgamers.com/wiki/index.php/Source_Autoexec_Tweaks\r\n" +
+                "\thttp://wiki.teamfortress.com/wiki/Help:Recording_demos\r\n" +
+                "\thttp://www.tweakguides.com/HL2_1.html\r\n" +
+                "\thttp://www.youtube.com/watch?v=1CJkYisfeDs\r\n" +
+                "\thttps://chrisdown.name/tf2/\r\n" +
+                "\thttps://developer.valvesoftware.com/wiki/Depth_buffer\r\n" +
+                "\thttps://developer.valvesoftware.com/wiki/DirectX_Versions\r\n" +
+                "\thttps://developer.valvesoftware.com/wiki/Mat_wireframe\r\n" +
+                "\thttps://support.steampowered.com/kb_article.php?ref=7388-QPFN-2491\r\n" +
+                "\thttps://support.steampowered.com/view.php?ticketref=5436-WPHV-7742",
+                true,
+                true);
+
+            form.ShowDialog();
+            form.Dispose();
         }
         #endregion
         #endregion

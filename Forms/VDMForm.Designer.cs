@@ -47,6 +47,8 @@
             this.networkProtocolColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.demosContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.viewDemosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDemosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteDemosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rangesLabel = new System.Windows.Forms.Label();
             this.rangesListView = new System.Windows.Forms.ListView();
             this.demoNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -210,17 +212,33 @@
             // demosContextMenuStrip
             // 
             this.demosContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewDemosToolStripMenuItem});
+            this.openDemosToolStripMenuItem,
+            this.viewDemosToolStripMenuItem,
+            this.deleteDemosToolStripMenuItem});
             this.demosContextMenuStrip.Name = "demoContextMenuStrip";
-            this.demosContextMenuStrip.Size = new System.Drawing.Size(100, 26);
+            this.demosContextMenuStrip.Size = new System.Drawing.Size(158, 92);
             this.demosContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.demosContextMenuStrip_Opening);
             // 
             // viewDemosToolStripMenuItem
             // 
             this.viewDemosToolStripMenuItem.Name = "viewDemosToolStripMenuItem";
-            this.viewDemosToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
-            this.viewDemosToolStripMenuItem.Text = "View";
+            this.viewDemosToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.viewDemosToolStripMenuItem.Text = "View in Explorer";
             this.viewDemosToolStripMenuItem.Click += new System.EventHandler(this.viewDemosToolStripMenuItem_Click);
+            // 
+            // openDemosToolStripMenuItem
+            // 
+            this.openDemosToolStripMenuItem.Name = "openDemosToolStripMenuItem";
+            this.openDemosToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.openDemosToolStripMenuItem.Text = "Open";
+            this.openDemosToolStripMenuItem.Click += new System.EventHandler(this.openDemosToolStripMenuItem_Click);
+            // 
+            // deleteDemosToolStripMenuItem
+            // 
+            this.deleteDemosToolStripMenuItem.Name = "deleteDemosToolStripMenuItem";
+            this.deleteDemosToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.deleteDemosToolStripMenuItem.Text = "Delete";
+            this.deleteDemosToolStripMenuItem.Click += new System.EventHandler(this.deleteDemosToolStripMenuItem_Click);
             // 
             // rangesLabel
             // 
@@ -278,7 +296,7 @@
             this.editRangesToolStripMenuItem,
             this.deleteRangesToolStripMenuItem});
             this.rangesContextMenuStrip.Name = "rangeContextMenuStrip";
-            this.rangesContextMenuStrip.Size = new System.Drawing.Size(153, 92);
+            this.rangesContextMenuStrip.Size = new System.Drawing.Size(108, 70);
             this.rangesContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.rangesContextMenuStrip_Opening);
             // 
             // viewRangesToolStripMenuItem
@@ -291,14 +309,14 @@
             // editRangesToolStripMenuItem
             // 
             this.editRangesToolStripMenuItem.Name = "editRangesToolStripMenuItem";
-            this.editRangesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editRangesToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.editRangesToolStripMenuItem.Text = "Edit";
             this.editRangesToolStripMenuItem.Click += new System.EventHandler(this.editRangesToolStripMenuItem_Click);
             // 
             // deleteRangesToolStripMenuItem
             // 
             this.deleteRangesToolStripMenuItem.Name = "deleteRangesToolStripMenuItem";
-            this.deleteRangesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteRangesToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.deleteRangesToolStripMenuItem.Text = "Delete";
             this.deleteRangesToolStripMenuItem.Click += new System.EventHandler(this.deleteRangesToolStripMenuItem_Click);
             // 
@@ -438,5 +456,7 @@
         private System.Windows.Forms.ToolStripMenuItem viewRangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editRangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteRangesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openDemosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteDemosToolStripMenuItem;
     }
 }
