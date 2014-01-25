@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace SourceRecordingTool
 {
-    public static class FileSystem
+    public static class Shell
     {
         public static void OpenDirectory(string path)
         {

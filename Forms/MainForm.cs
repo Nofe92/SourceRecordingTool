@@ -14,7 +14,7 @@ namespace SourceRecordingTool
 {
     public partial class MainForm : Form
     {
-        public static Profile CurrentProfile;
+        public static SRTProfile CurrentProfile;
         public static CultureInfo US = CultureInfo.CreateSpecificCulture("en-US");
 
         private FileSystemWatcher cfgFileSystemWatcher;
@@ -33,7 +33,7 @@ namespace SourceRecordingTool
         {
             InitializeComponent();
 
-            CurrentProfile = Profile.FromFile();
+            CurrentProfile = SRTProfile.FromFile();
 
             InitializeGame();
             InitializeConfig();
@@ -81,6 +81,7 @@ namespace SourceRecordingTool
             SRTGame CSGO = new SRTGame(730, "Counter-Strike: Global Offensive", "Counter-Strike Global Offensive", "csgo", "csgo.exe", "cs_baggage_skybox_", "cs_tibet", "embassy", "italy", "jungle", "office", "sky_cs15_daylight01_hdr", "sky_cs15_daylight02_hdr", "sky_cs15_daylight03_hdr", "sky_cs15_daylight04_hdr", "sky_day02_05", "sky_day02_05_hdr", "sky_dust", "vertigoblue_hdr", "vertigo", "vertigo_hdr", "vietnam");
             SRTGame CSS = new SRTGame(240, "Counter-Strike: Source", "Counter-Strike Source", "cstrike", "hl2.exe", "assaultup.vmt", "cxup.vmt", "de_cobbleup.vmt", "de_cobble_hdrup.vmt", "de_piranesiup.vmt", "havup.vmt", "italyup.vmt", "jungleup.vmt", "militia_hdrup.vmt", "officeup.vmt", "sky_c17_05up.vmt", "sky_dustup.vmt", "sky_dust_hdrup.vmt", "tidesup.vmt", "trainup.vmt", "train_hdrup.vmt");
             SRTGame DODS = new SRTGame(300, "Day of Defeat: Source", "Day of Defeat Source", "dod", "hl2.exe", "sky_day01_01", "sky_dod_01_hdr", "sky_dod_02_hdr", "sky_dod_03_hdr", "sky_dod_04_hdr", "sky_dod_05_hdr", "sky_dod_06_hdr", "sky_dod_07z_hdr", "sky_dod_07_hdr", "sky_dod_08_hdr", "sky_dod_09_hdr", "sky_dod_10_hdr");
+            SRTGame DOTA2 = new SRTGame(570, "Dota 2", "dota 2 beta", "dota", "dota.exe", new string[0]);
             SRTGame HL2 = new SRTGame(220, "Half-Life 2", "Half-Life 2", "hl2", "hl2.exe", "sky_borealis01", "sky_day01_01", "sky_day01_01_hdr", "sky_day01_04", "sky_day01_04_hdr", "sky_day01_05", "sky_day01_05_hdr", "sky_day01_06", "sky_day01_06_hdr", "sky_day01_07", "sky_day01_07_hdr", "sky_day01_08", "sky_day01_08_hdr", "sky_day01_09", "sky_day01_09_hdr", "sky_day02_01", "sky_day02_01_hdr", "sky_day02_02", "sky_day02_02_hdr", "sky_day02_03", "sky_day02_03_hdr", "sky_day02_04", "sky_day02_04_hdr", "sky_day02_05", "sky_day02_05_hdr", "sky_day02_06", "sky_day02_06_hdr", "sky_day02_07", "sky_day02_07_hdr", "sky_day02_09", "sky_day02_09_hdr", "sky_day02_10", "sky_day02_10_hdr", "sky_day03_01", "sky_day03_01_hdr", "sky_day03_02", "sky_day03_02_hdr", "sky_day03_03", "sky_day03_04", "sky_day03_04_hdr", "sky_day03_05", "sky_day03_05_hdr", "sky_day03_06b", "sky_day03_06b_hdr", "sky_day03_06", "sky_day03_06_hdr", "sky_wasteland02");
             SRTGame HL2DM = new SRTGame(320, "Half-Life 2: Deathmatch", "Half-Life 2 Deathmatch", "hl2mp", "hl2.exe", "sky_borealis01", "sky_day01_01", "sky_day01_01_hdr", "sky_day01_04", "sky_day01_04_hdr", "sky_day01_05", "sky_day01_05_hdr", "sky_day01_06", "sky_day01_06_hdr", "sky_day01_07", "sky_day01_07_hdr", "sky_day01_08", "sky_day01_08_hdr", "sky_day01_09", "sky_day01_09_hdr", "sky_day02_01", "sky_day02_01_hdr", "sky_day02_02", "sky_day02_02_hdr", "sky_day02_03", "sky_day02_03_hdr", "sky_day02_04", "sky_day02_04_hdr", "sky_day02_05", "sky_day02_05_hdr", "sky_day02_06", "sky_day02_06_hdr", "sky_day02_07", "sky_day02_07_hdr", "sky_day02_09", "sky_day02_09_hdr", "sky_day02_10", "sky_day02_10_hdr", "sky_day03_01", "sky_day03_01_hdr", "sky_day03_02", "sky_day03_02_hdr", "sky_day03_03", "sky_day03_04", "sky_day03_04_hdr", "sky_day03_05", "sky_day03_05_hdr", "sky_day03_06b", "sky_day03_06b_hdr", "sky_day03_06", "sky_day03_06_hdr", "sky_wasteland02");
             SRTGame HL2EP1 = new SRTGame(380, "Half-Life 2: Episode One", "Half-Life 2", "episodic", "hl2.exe", "sky_day03_06c", "sky_ep01_00", "sky_ep01_00_hdr", "sky_ep01_01", "sky_ep01_02", "sky_ep01_02_hdr", "sky_ep01_04a", "sky_ep01_04a_hdr", "sky_ep01_04", "sky_ep01_04_hdr", "sky_ep01_citadel_int", "sky_fog");
@@ -92,7 +93,7 @@ namespace SourceRecordingTool
             SRTGame PORTAL2 = new SRTGame(620, "Portal 2", "Portal 2", "portal2", "portal2.exe", "sky_black", "sky_black_nofog", "sky_fog", "sky_l4d_c4m1_hdr", "sky_white");
             SRTGame TF2 = new SRTGame(440, "Team Fortress 2", "Team Fortress 2", "tf", "hl2.exe", "sky_alpinestorm_01", "sky_badlands_01", "sky_dustbowl_01", "sky_dustbowl_01_hdr", "sky_goldrush_01", "sky_granary_01", "sky_granary_01_hdr", "sky_gravel_01", "sky_gravel_01_hdr", "sky_halloween", "sky_halloween_night_01", "sky_halloween_night_01_hdr", "sky_harvest_01", "sky_harvest_01_hdr", "sky_harvest_night_01", "sky_hydro_01", "sky_hydro_01_hdr", "sky_morningsnow_01", "sky_nightfall_01", "sky_night_01", "sky_rainbow_01", "sky_stormfront_01", "sky_tf2_04", "sky_tf2_04_hdr", "sky_trainyard_01", "sky_upward", "sky_upward_hdr", "sky_well_01", "sky_well_01_hdr");
 
-            SRTGame.AllGames = new SRTGame[] { CSGO, CSS, DODS, HL2, HL2DM, HL2EP1, HL2EP2, HL2LOSTCOAST, L4D, L4D2, PORTAL, PORTAL2, TF2 };
+            SRTGame.AllGames = new SRTGame[] { CSGO, CSS, DODS, DOTA2, HL2, HL2DM, HL2EP1, HL2EP2, HL2LOSTCOAST, L4D, L4D2, PORTAL, PORTAL2, TF2 };
             GameComboBox.DataSource = SRTGame.AllGames;
         }
 
@@ -306,9 +307,9 @@ namespace SourceRecordingTool
         private void configLabel_Click(object sender, EventArgs e)
         {
             if (ConfigComboBox.SelectedIndex > 0)
-                FileSystem.OpenExplorer("moviefiles\\cfg\\" + ConfigComboBox.SelectedItem);
+                Shell.OpenExplorer("moviefiles\\cfg\\" + ConfigComboBox.SelectedItem);
             else
-                FileSystem.OpenDirectory("moviefiles\\cfg");
+                Shell.OpenDirectory("moviefiles\\cfg");
         }
 
         private void ConfigComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -318,12 +319,12 @@ namespace SourceRecordingTool
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            FileSystem.Open("moviefiles\\cfg\\" + ConfigComboBox.SelectedItem);
+            Shell.Open("moviefiles\\cfg\\" + ConfigComboBox.SelectedItem);
         }
 
         private void customLabel_Click(object sender, EventArgs e)
         {
-            FileSystem.OpenDirectory("moviefiles\\custom");
+            Shell.OpenDirectory("moviefiles\\custom");
         }
 
         private void CustomCheckedListBox_MouseDown(object sender, MouseEventArgs e)
@@ -424,17 +425,17 @@ namespace SourceRecordingTool
         private void viewCustomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CustomCheckedListBox.GetItemChecked(CustomCheckedListBox.SelectedIndex))
-                FileSystem.OpenExplorer("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
+                Shell.OpenExplorer("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
             else
-                FileSystem.OpenExplorer("moviefiles\\custom_disabled\\" + (string)CustomCheckedListBox.SelectedItem);
+                Shell.OpenExplorer("moviefiles\\custom_disabled\\" + (string)CustomCheckedListBox.SelectedItem);
         }
 
         private void viewContentsCustomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CustomCheckedListBox.GetItemChecked(CustomCheckedListBox.SelectedIndex))
-                FileSystem.Open("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
+                Shell.Open("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
             else
-                FileSystem.Open("moviefiles\\custom_disabled\\" + (string)CustomCheckedListBox.SelectedItem);
+                Shell.Open("moviefiles\\custom_disabled\\" + (string)CustomCheckedListBox.SelectedItem);
         }
 
         private void selectAllCustomToolStripMenuItem_Click(object sender, EventArgs e)
@@ -453,7 +454,7 @@ namespace SourceRecordingTool
         #region Skybox
         private void skyboxNameLabel_Click(object sender, EventArgs e)
         {
-            FileSystem.OpenDirectory("moviefiles\\skybox");
+            Shell.OpenDirectory("moviefiles\\skybox");
         }
 
         private void skyboxPictureBox_Click(object sender, EventArgs e)
@@ -639,13 +640,13 @@ namespace SourceRecordingTool
         private void tgaLabel_Click(object sender, EventArgs e)
         {
             Directory.CreateDirectory(TgaTextBox.Text);
-            FileSystem.OpenDirectory(TgaTextBox.Text);
+            Shell.OpenDirectory(TgaTextBox.Text);
         }
 
         private void aviLabel_Click(object sender, EventArgs e)
         {
             Directory.CreateDirectory(VideoTextBox.Text);
-            FileSystem.OpenDirectory(VideoTextBox.Text);
+            Shell.OpenDirectory(VideoTextBox.Text);
         }
 
         private void TgaTextBox_Leave(object sender, EventArgs e)
@@ -708,7 +709,7 @@ namespace SourceRecordingTool
         private void viewTgaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in TgaListView.SelectedItems)
-                FileSystem.OpenExplorer(TgaTextBox.Text + "\\" + item.Text + "_0000.tga");
+                Shell.OpenExplorer(TgaTextBox.Text + "\\" + item.Text + "_0000.tga");
         }
 
         private void deleteTgaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -823,27 +824,27 @@ namespace SourceRecordingTool
         #region Edit
         private void openCommonPathToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileSystem.OpenDirectory(SRTGame.Common);
+            Shell.OpenDirectory(SRTGame.Common);
         }
 
         private void openLongNamePathToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileSystem.OpenDirectory(SRTGame.AllGames[GameComboBox.SelectedIndex].LongNamePath);
+            Shell.OpenDirectory(SRTGame.AllGames[GameComboBox.SelectedIndex].LongNamePath);
         }
 
         private void openShortNamePathToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileSystem.OpenDirectory(SRTGame.AllGames[GameComboBox.SelectedIndex].ShortNamePath);
+            Shell.OpenDirectory(SRTGame.AllGames[GameComboBox.SelectedIndex].ShortNamePath);
         }
 
         private void installGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileSystem.Open("steam://install/" + SRTGame.AllGames[GameComboBox.SelectedIndex].AppID.ToString());
+            Shell.Open("steam://install/" + SRTGame.AllGames[GameComboBox.SelectedIndex].AppID.ToString());
         }
 
         private void validateGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileSystem.Open("steam://validate/" + SRTGame.AllGames[GameComboBox.SelectedIndex].AppID.ToString());
+            Shell.Open("steam://validate/" + SRTGame.AllGames[GameComboBox.SelectedIndex].AppID.ToString());
         }
 
         private void deleteTGASequencesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -959,7 +960,7 @@ namespace SourceRecordingTool
         private void viewBackupFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Directory.CreateDirectory("backup");
-            FileSystem.OpenDirectory("backup");
+            Shell.OpenDirectory("backup");
         }
 
         private void restoreBackupToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1028,12 +1029,12 @@ namespace SourceRecordingTool
         #region Help
         private void tutorialToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileSystem.Open("http://www.youtube.com/hl2mukkel");
+            Shell.Open("http://www.youtube.com/hl2mukkel");
         }
 
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileSystem.Open("moviefiles\\help\\Keyboard.png");
+            Shell.Open("moviefiles\\help\\Keyboard.png");
         }
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1048,7 +1049,7 @@ namespace SourceRecordingTool
 
         private void forumToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileSystem.Open("https://sourceforge.net/p/sourcerecordingtool/discussion/");
+            Shell.Open("https://sourceforge.net/p/sourcerecordingtool/discussion/");
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1067,6 +1068,8 @@ namespace SourceRecordingTool
                 "Config\r\n" +
                 "\tgeneric-movie.cfg\t- Aron\r\n" +
                 "\tgeneric-play.cfg\t- Aron\r\n" +
+                "\tcsgo-movie.cfg\t- Aron (csgo-specific commands merged from Mrtweeday's config)\r\n" +
+                "\tcsgo-play.cfg\t- Aron (csgo-specific commands merged from Mrtweeday's config)\r\n" +
                 "\ttf2-movie.cfg\t- Aron\r\n" +
                 "\ttf2-play.cfg\t- Aron\r\n" +
                 "\r\n" +
@@ -1101,6 +1104,7 @@ namespace SourceRecordingTool
                 "\thttp://whisper.ausgamers.com/wiki/index.php/Source_Autoexec_Tweaks\r\n" +
                 "\thttp://wiki.teamfortress.com/wiki/Help:Recording_demos\r\n" +
                 "\thttp://www.tweakguides.com/HL2_1.html\r\n" +
+                "\thttp://www.youtube.com/user/Mrtweeday\r\n" +
                 "\thttp://www.youtube.com/watch?v=1CJkYisfeDs\r\n" +
                 "\thttps://chrisdown.name/tf2/\r\n" +
                 "\thttps://developer.valvesoftware.com/wiki/Depth_buffer\r\n" +

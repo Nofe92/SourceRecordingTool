@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SourceRecordingTool
 {
-    public class Profile
+    public class SRTProfile
     {
         private const string DEFAULT_PATH = "moviefiles\\profiles\\default.dat";
 
@@ -47,16 +47,16 @@ namespace SourceRecordingTool
             get { return SRTSkybox.FindSkyboxByName(Skyname); }
         }
 
-        public static Profile FromFile()
+        public static SRTProfile FromFile()
         {
-            Profile result = new Profile();
+            SRTProfile result = new SRTProfile();
             result.Load();
             return result;
         }
 
-        public static Profile FromFile(string fileName)
+        public static SRTProfile FromFile(string fileName)
         {
-            Profile result = new Profile();
+            SRTProfile result = new SRTProfile();
             result.Load(fileName);
             return result;
         }

@@ -17,7 +17,7 @@ namespace SourceRecordingTool
 
         public static bool Running = false;
         private static List<string> vdmFileList = new List<string>();
-        private static Profile profile;
+        private static SRTProfile profile;
         private static SRTGame game;
         private static string demo;
         private static string addons;
@@ -89,7 +89,6 @@ namespace SourceRecordingTool
 
                 MoveFolders();
                 MoveRegistry();
-
                 try
                 {
                     CreateAddons();
@@ -97,6 +96,7 @@ namespace SourceRecordingTool
                     CreateCustom();
                     CreateSkybox();
                     CreateVDM();
+
                     StartGame();
                 }
                 catch (Exception ex)
@@ -228,12 +228,13 @@ namespace SourceRecordingTool
 
         private static void CreateAddons()
         {
-
+            if (game.ShortName == "csgo")
+                DirectoryEx.Copy("moviefiles\\addons", addons);
         }
 
         private static void CreateConfig()
         {
-            StreamWriter writer = new StreamWriter(cfg + "\\autoexec.cfg");
+            StreamWriter writer = new StreamWriter(cfg + "\\config.cfg");
 
             writer.WriteLine("sv_cheats 1");
             writer.WriteLine("alias cinematic_off \"mat_bloom_scalefactor_scalar 1;mat_motion_blur_enabled 0;mat_motion_blur_forward_enabled 0;mat_motion_blur_rotation_intensity 1;mat_motion_blur_strength 1\"");

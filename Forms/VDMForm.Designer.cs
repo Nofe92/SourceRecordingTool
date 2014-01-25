@@ -46,8 +46,8 @@
             this.demoProtocolColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.networkProtocolColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.demosContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.viewDemosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDemosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewDemosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteDemosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rangesLabel = new System.Windows.Forms.Label();
             this.rangesListView = new System.Windows.Forms.ListView();
@@ -108,7 +108,7 @@
             this.pathTextBox.Location = new System.Drawing.Point(168, 52);
             this.pathTextBox.Name = "pathTextBox";
             this.pathTextBox.ReadOnly = true;
-            this.pathTextBox.Size = new System.Drawing.Size(774, 23);
+            this.pathTextBox.Size = new System.Drawing.Size(874, 23);
             this.pathTextBox.TabIndex = 2;
             // 
             // filterTextBox
@@ -117,7 +117,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filterTextBox.Location = new System.Drawing.Point(168, 81);
             this.filterTextBox.Name = "filterTextBox";
-            this.filterTextBox.Size = new System.Drawing.Size(804, 23);
+            this.filterTextBox.Size = new System.Drawing.Size(904, 23);
             this.filterTextBox.TabIndex = 5;
             this.filterTextBox.TextChanged += new System.EventHandler(this.filterTextBox_TextChanged);
             // 
@@ -129,7 +129,7 @@
             this.demosLabel.ForeColor = System.Drawing.Color.DodgerBlue;
             this.demosLabel.Location = new System.Drawing.Point(12, 107);
             this.demosLabel.Name = "demosLabel";
-            this.demosLabel.Size = new System.Drawing.Size(960, 40);
+            this.demosLabel.Size = new System.Drawing.Size(1060, 40);
             this.demosLabel.TabIndex = 6;
             this.demosLabel.Text = "Available Demos";
             this.demosLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -155,7 +155,7 @@
             this.demosListView.HideSelection = false;
             this.demosListView.Location = new System.Drawing.Point(12, 150);
             this.demosListView.Name = "demosListView";
-            this.demosListView.Size = new System.Drawing.Size(960, 200);
+            this.demosListView.Size = new System.Drawing.Size(1060, 204);
             this.demosListView.TabIndex = 7;
             this.demosListView.UseCompatibleStateImageBehavior = false;
             this.demosListView.View = System.Windows.Forms.View.Details;
@@ -216,15 +216,8 @@
             this.viewDemosToolStripMenuItem,
             this.deleteDemosToolStripMenuItem});
             this.demosContextMenuStrip.Name = "demoContextMenuStrip";
-            this.demosContextMenuStrip.Size = new System.Drawing.Size(158, 92);
+            this.demosContextMenuStrip.Size = new System.Drawing.Size(158, 70);
             this.demosContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.demosContextMenuStrip_Opening);
-            // 
-            // viewDemosToolStripMenuItem
-            // 
-            this.viewDemosToolStripMenuItem.Name = "viewDemosToolStripMenuItem";
-            this.viewDemosToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.viewDemosToolStripMenuItem.Text = "View in Explorer";
-            this.viewDemosToolStripMenuItem.Click += new System.EventHandler(this.viewDemosToolStripMenuItem_Click);
             // 
             // openDemosToolStripMenuItem
             // 
@@ -232,6 +225,13 @@
             this.openDemosToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.openDemosToolStripMenuItem.Text = "Open";
             this.openDemosToolStripMenuItem.Click += new System.EventHandler(this.openDemosToolStripMenuItem_Click);
+            // 
+            // viewDemosToolStripMenuItem
+            // 
+            this.viewDemosToolStripMenuItem.Name = "viewDemosToolStripMenuItem";
+            this.viewDemosToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.viewDemosToolStripMenuItem.Text = "View in Explorer";
+            this.viewDemosToolStripMenuItem.Click += new System.EventHandler(this.viewDemosToolStripMenuItem_Click);
             // 
             // deleteDemosToolStripMenuItem
             // 
@@ -246,9 +246,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rangesLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rangesLabel.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.rangesLabel.Location = new System.Drawing.Point(12, 353);
+            this.rangesLabel.Location = new System.Drawing.Point(12, 357);
             this.rangesLabel.Name = "rangesLabel";
-            this.rangesLabel.Size = new System.Drawing.Size(960, 40);
+            this.rangesLabel.Size = new System.Drawing.Size(1060, 40);
             this.rangesLabel.TabIndex = 8;
             this.rangesLabel.Text = "Recording Ranges";
             this.rangesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -264,9 +264,9 @@
             this.endTickColumnHeader});
             this.rangesListView.ContextMenuStrip = this.rangesContextMenuStrip;
             this.rangesListView.FullRowSelect = true;
-            this.rangesListView.Location = new System.Drawing.Point(12, 396);
+            this.rangesListView.Location = new System.Drawing.Point(12, 400);
             this.rangesListView.Name = "rangesListView";
-            this.rangesListView.Size = new System.Drawing.Size(754, 200);
+            this.rangesListView.Size = new System.Drawing.Size(854, 200);
             this.rangesListView.TabIndex = 9;
             this.rangesListView.UseCompatibleStateImageBehavior = false;
             this.rangesListView.View = System.Windows.Forms.View.Details;
@@ -323,7 +323,7 @@
             // addRangeButton
             // 
             this.addRangeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.addRangeButton.Location = new System.Drawing.Point(772, 396);
+            this.addRangeButton.Location = new System.Drawing.Point(872, 400);
             this.addRangeButton.Name = "addRangeButton";
             this.addRangeButton.Size = new System.Drawing.Size(200, 30);
             this.addRangeButton.TabIndex = 10;
@@ -335,7 +335,7 @@
             // 
             this.editRangeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.editRangeButton.Enabled = false;
-            this.editRangeButton.Location = new System.Drawing.Point(772, 432);
+            this.editRangeButton.Location = new System.Drawing.Point(872, 436);
             this.editRangeButton.Name = "editRangeButton";
             this.editRangeButton.Size = new System.Drawing.Size(200, 30);
             this.editRangeButton.TabIndex = 11;
@@ -347,7 +347,7 @@
             // 
             this.deleteRangeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteRangeButton.Enabled = false;
-            this.deleteRangeButton.Location = new System.Drawing.Point(772, 468);
+            this.deleteRangeButton.Location = new System.Drawing.Point(872, 472);
             this.deleteRangeButton.Name = "deleteRangeButton";
             this.deleteRangeButton.Size = new System.Drawing.Size(200, 30);
             this.deleteRangeButton.TabIndex = 12;
@@ -358,7 +358,7 @@
             // pathBrowseButton
             // 
             this.pathBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pathBrowseButton.Location = new System.Drawing.Point(948, 52);
+            this.pathBrowseButton.Location = new System.Drawing.Point(1048, 52);
             this.pathBrowseButton.Name = "pathBrowseButton";
             this.pathBrowseButton.Size = new System.Drawing.Size(24, 23);
             this.pathBrowseButton.TabIndex = 3;
@@ -370,7 +370,7 @@
             // 
             this.startRecordingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.startRecordingButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startRecordingButton.Location = new System.Drawing.Point(772, 548);
+            this.startRecordingButton.Location = new System.Drawing.Point(872, 552);
             this.startRecordingButton.Name = "startRecordingButton";
             this.startRecordingButton.Size = new System.Drawing.Size(200, 47);
             this.startRecordingButton.TabIndex = 13;
@@ -385,7 +385,7 @@
             this.modeComboBox.Items.AddRange(new object[] {
             "TGA-Sequence",
             "MP4-Video"});
-            this.modeComboBox.Location = new System.Drawing.Point(772, 519);
+            this.modeComboBox.Location = new System.Drawing.Point(872, 523);
             this.modeComboBox.Name = "modeComboBox";
             this.modeComboBox.Size = new System.Drawing.Size(200, 23);
             this.modeComboBox.TabIndex = 14;
@@ -394,7 +394,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 607);
+            this.ClientSize = new System.Drawing.Size(1084, 611);
             this.Controls.Add(this.modeComboBox);
             this.Controls.Add(this.startRecordingButton);
             this.Controls.Add(this.directoriesLabel);

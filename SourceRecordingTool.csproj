@@ -69,9 +69,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\DirectoryEx.cs" />
-    <Compile Include="Core\FileEx.cs" />
-    <Compile Include="Core\PathEx.cs" />
+    <Compile Include="IO\DirectoryEx.cs" />
+    <Compile Include="IO\FileEx.cs" />
+    <Compile Include="IO\PathEx.cs" />
     <Compile Include="Dialogs\Dialogs.cs" />
     <Compile Include="Forms\RichTextBoxForm.cs">
       <SubType>Form</SubType>
@@ -81,8 +81,8 @@
     </Compile>
     <Compile Include="SRT\SRTSkybox.cs" />
     <Compile Include="VDM\DemoFile.cs" />
-    <Compile Include="Core\FileSystem.cs" />
-    <Compile Include="Core\StartGameManager.cs" />
+    <Compile Include="IO\Shell.cs" />
+    <Compile Include="StartGameManager.cs" />
     <Compile Include="SRT\SRTGame.cs" />
     <Compile Include="Dialogs\RecordingRangeDialog.cs">
       <SubType>Form</SubType>
@@ -96,7 +96,7 @@
     <Compile Include="Forms\SkyboxForm.Designer.cs">
       <DependentUpon>SkyboxForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\Profile.cs" />
+    <Compile Include="SRT\SRTProfile.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

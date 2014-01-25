@@ -42,7 +42,7 @@
             this.textRichTextBox.Location = new System.Drawing.Point(14, 14);
             this.textRichTextBox.Name = "textRichTextBox";
             this.textRichTextBox.ReadOnly = true;
-            this.textRichTextBox.Size = new System.Drawing.Size(558, 499);
+            this.textRichTextBox.Size = new System.Drawing.Size(608, 549);
             this.textRichTextBox.TabIndex = 0;
             this.textRichTextBox.Text = "";
             this.textRichTextBox.WordWrap = false;
@@ -52,7 +52,7 @@
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(316, 519);
+            this.okButton.Location = new System.Drawing.Point(366, 569);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(125, 30);
             this.okButton.TabIndex = 1;
@@ -63,7 +63,7 @@
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(447, 519);
+            this.cancelButton.Location = new System.Drawing.Point(497, 569);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(125, 30);
             this.cancelButton.TabIndex = 2;
@@ -74,7 +74,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 561);
+            this.ClientSize = new System.Drawing.Size(634, 611);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.textRichTextBox);

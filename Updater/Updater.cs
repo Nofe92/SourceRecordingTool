@@ -82,7 +82,7 @@ namespace SourceRecordingTool
             if (String.IsNullOrEmpty(ChangelogLink) || latestVersion == null)
                 throw new Exception("No Connection to update servers.");
 
-            HttpWebRequest request = WebRequest.CreateHttp(ChangelogLink);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ChangelogLink);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Stream responseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(responseStream, Encoding.ASCII);
@@ -115,7 +115,7 @@ namespace SourceRecordingTool
                 false);
 
             if (form.ShowDialog() == DialogResult.OK)
-                FileSystem.Open(DownloadLink);
+                Shell.Open(DownloadLink);
 
             form.Dispose();
         }

@@ -33,7 +33,7 @@ namespace SourceRecordingTool
 
         private void textRichTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            FileSystem.Open(e.LinkText);
+            Shell.Open(e.LinkText);
         }
     }
 }

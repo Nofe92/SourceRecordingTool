@@ -21,7 +21,7 @@ namespace SourceRecordingTool
         {
             string parent = PathEx.GetParentDirectory(path);
 
-            if (!DirectoryEx.Exists(parent))
+            if (parent != "" && !DirectoryEx.Exists(parent))
                 DirectoryEx.Create(parent);
 
             if (!DirectoryEx.Exists(path))

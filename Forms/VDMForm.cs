@@ -151,7 +151,7 @@ namespace SourceRecordingTool
             if (reverse)
                 demoFilesFilter.Reverse();
 
-            if (demosListView.VirtualListSize == demoFilesFilter.Count)
+            if (demoFilesFilter.Count > 0 && demosListView.VirtualListSize == demoFilesFilter.Count)
                 demosListView.RedrawItems(0, demosListView.Items.Count - 1, false);
             else
                 demosListView.VirtualListSize = demoFilesFilter.Count;
@@ -262,7 +262,7 @@ namespace SourceRecordingTool
             if (demosListView.SelectedIndices.Count != 1)
                 return;
 
-            FileSystem.OpenExplorer(((DemoFile)(demoFilesFilter[demosListView.SelectedIndices[0]].Tag)).FullName);
+            Shell.OpenExplorer(((DemoFile)(demoFilesFilter[demosListView.SelectedIndices[0]].Tag)).FullName);
         }
 
         private void deleteDemosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -310,7 +310,7 @@ namespace SourceRecordingTool
             if (rangesListView.SelectedIndices.Count != 1)
                 return;
 
-            FileSystem.OpenExplorer(RecordingRanges[rangesListView.SelectedIndices[0]].FullPath);
+            Shell.OpenExplorer(RecordingRanges[rangesListView.SelectedIndices[0]].FullPath);
         }
 
         private void editRangesToolStripMenuItem_Click(object sender, EventArgs e)
