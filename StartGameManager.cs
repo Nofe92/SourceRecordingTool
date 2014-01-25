@@ -442,6 +442,10 @@ namespace SourceRecordingTool
                 writer.WriteLine();
             }
 
+
+            if (demo == null && RecordingRanges.Count > 0)
+                demo = RecordingRanges[0].FullPath;
+
             if (demo != null)
             {
                 writer.WriteLine("playdemo \"{0}\"", demo);
@@ -475,9 +479,6 @@ namespace SourceRecordingTool
 
         private static void CreateVDM()
         {
-            if (RecordingRanges.Count > 0)
-                demo = RecordingRanges[0].FullPath;
-
             while (RecordingRanges.Count > 0)
             {
                 localRecordingRange.Add(RecordingRanges[0]);

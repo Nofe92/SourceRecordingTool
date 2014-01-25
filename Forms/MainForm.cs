@@ -14,6 +14,8 @@ namespace SourceRecordingTool
 {
     public partial class MainForm : Form
     {
+        public const string DEFAULT_PROFILE_PATH = "moviefiles\\profiles\\default.dat";
+
         public static SRTProfile CurrentProfile;
         public static CultureInfo US = CultureInfo.CreateSpecificCulture("en-US");
 
@@ -33,7 +35,7 @@ namespace SourceRecordingTool
         {
             InitializeComponent();
 
-            CurrentProfile = SRTProfile.FromFile();
+            CurrentProfile = SRTProfile.FromFile(DEFAULT_PROFILE_PATH);
 
             InitializeGame();
             InitializeConfig();
@@ -42,6 +44,7 @@ namespace SourceRecordingTool
             Initialize();
         }
 
+        #region Initialization
         private void Initialize()
         {
             Win32.SetWindowTheme(this.TgaListView.Handle, "explorer", null);
@@ -160,7 +163,9 @@ namespace SourceRecordingTool
 
             skyboxFileSystemWatcher.EnableRaisingEvents = true;
         }
+        #endregion
 
+        #region Refresh
         private void RefreshDatarate()
         {
             resolutionLabel.ForeColor = CurrentProfile.Width < 0 ? Color.DarkRed : Color.Navy;
@@ -259,12 +264,24 @@ namespace SourceRecordingTool
                 TgaListView.Items.Add(item);
             }
         }
+        #endregion
+
+        private void LoadProfile()
+        {
+            CurrentProfile.Load(DEFAULT_PROFILE_PATH);
+            CurrentProfile.UpdateForm(this);
+        }
+
+        public void SaveProfile()
+        {
+            CurrentProfile.UpdateProfile(this);
+            CurrentProfile.Save(DEFAULT_PROFILE_PATH);
+        }
 
         #region MainForm
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            CurrentProfile.UpdateProfile(this);
-            CurrentProfile.Save();
+            SaveProfile();
         }
 
         protected override void OnDragEnter(DragEventArgs drgevent)
@@ -759,14 +776,12 @@ namespace SourceRecordingTool
         #region Profile
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CurrentProfile.Load();
-            CurrentProfile.UpdateForm(this);
+            LoadProfile();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CurrentProfile.UpdateProfile(this);
-            CurrentProfile.Save();
+            SaveProfile();
         }
 
         private void openDemoToolStripMenuItem_Click(object sender, EventArgs e)

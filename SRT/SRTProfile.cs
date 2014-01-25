@@ -5,18 +5,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SourceRecordingTool
 {
     public class SRTProfile
     {
-        private const string DEFAULT_PATH = "moviefiles\\profiles\\default.dat";
-
         public int GameIndex;
         public int DXLevel;
         public int Width;
         public int Height;
         public int Framerate;
+        public string[] custom;
         public string Skyname;
         public string Config;
         public string TgaPath;
@@ -47,23 +47,11 @@ namespace SourceRecordingTool
             get { return SRTSkybox.FindSkyboxByName(Skyname); }
         }
 
-        public static SRTProfile FromFile()
-        {
-            SRTProfile result = new SRTProfile();
-            result.Load();
-            return result;
-        }
-
         public static SRTProfile FromFile(string fileName)
         {
             SRTProfile result = new SRTProfile();
             result.Load(fileName);
             return result;
-        }
-
-        public void Save()
-        {
-            Save(DEFAULT_PATH);
         }
 
         public void Save(string fileName)
@@ -78,6 +66,10 @@ namespace SourceRecordingTool
                 bin.Write(Height);
                 bin.Write(Framerate);
                 bin.Write(Config);
+
+                bin.Write((ushort)custom.Length);
+                for (int i = 0; i < custom.Length; i++)
+                    bin.Write(custom[i]);
 
                 if (Skybox == null)
                     bin.Write("");
@@ -104,11 +96,6 @@ namespace SourceRecordingTool
             }
         }
 
-        public void Load()
-        {
-            Load(DEFAULT_PATH);
-        }
-
         public void Load(string fileName)
         {
             try
@@ -121,6 +108,12 @@ namespace SourceRecordingTool
                     Height = bin.ReadInt32();
                     Framerate = bin.ReadInt32();
                     Config = bin.ReadString();
+
+                    custom = new string[bin.ReadUInt16()];
+
+                    for (int i = 0; i < custom.Length; i++)
+                        custom[i] = bin.ReadString();
+
                     Skyname = bin.ReadString();
                     TgaPath = bin.ReadString();
                     VideoPath = bin.ReadString();
@@ -155,6 +148,7 @@ namespace SourceRecordingTool
             Height = 1080;
             Framerate = 60;
             Config = "tf2-movie.cfg";
+            custom = new string[0];
             Skyname = "";
 
             if (resetDirs)
@@ -205,6 +199,12 @@ namespace SourceRecordingTool
             }
 
             Config = mainForm.ConfigComboBox.SelectedIndex == 0 ? "" : mainForm.ConfigComboBox.Text;
+
+            CheckedListBox.CheckedItemCollection customCheckedItems = mainForm.CustomCheckedListBox.CheckedItems;
+            custom = new string[customCheckedItems.Count];
+
+            for (int i = 0; i < customCheckedItems.Count; i++)
+                custom[i] = (string)customCheckedItems[i];
 
             TgaPath = mainForm.TgaTextBox.Text;
             VideoPath = mainForm.VideoTextBox.Text;
@@ -264,6 +264,14 @@ namespace SourceRecordingTool
                 mainForm.ConfigComboBox.SelectedIndex = 0;
             else
                 mainForm.ConfigComboBox.SelectedItem = Config;
+
+            foreach (string item in custom)
+            {
+                int index = mainForm.CustomCheckedListBox.Items.IndexOf(item);
+
+                if (index != -1)
+                    mainForm.CustomCheckedListBox.SetItemChecked(index, true);
+            }
 
             if (Skybox != null)
                 mainForm.SkyboxPictureBox.Image = Skybox.PreviewImage;
