@@ -10,13 +10,9 @@ using System.Windows.Forms;
 
 namespace SourceRecordingTool
 {
-    public partial class RecordingRangeDialog : Form
+    public partial class RecordingRangeForm : Form
     {
-        //public int startTick;
-        //public int endTick;
-        //public int maxTick;
-
-        public RecordingRangeDialog()
+        public RecordingRangeForm()
         {
             InitializeComponent();
         }

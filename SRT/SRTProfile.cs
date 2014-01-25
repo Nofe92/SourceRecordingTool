@@ -16,7 +16,7 @@ namespace SourceRecordingTool
         public int Width;
         public int Height;
         public int Framerate;
-        public string[] custom;
+        public string[] customItems;
         public string Skyname;
         public string Config;
         public string TgaPath;
@@ -67,9 +67,9 @@ namespace SourceRecordingTool
                 bin.Write(Framerate);
                 bin.Write(Config);
 
-                bin.Write((ushort)custom.Length);
-                for (int i = 0; i < custom.Length; i++)
-                    bin.Write(custom[i]);
+                bin.Write((ushort)customItems.Length);
+                for (int i = 0; i < customItems.Length; i++)
+                    bin.Write(customItems[i]);
 
                 if (Skybox == null)
                     bin.Write("");
@@ -109,10 +109,10 @@ namespace SourceRecordingTool
                     Framerate = bin.ReadInt32();
                     Config = bin.ReadString();
 
-                    custom = new string[bin.ReadUInt16()];
+                    customItems = new string[bin.ReadUInt16()];
 
-                    for (int i = 0; i < custom.Length; i++)
-                        custom[i] = bin.ReadString();
+                    for (int i = 0; i < customItems.Length; i++)
+                        customItems[i] = bin.ReadString();
 
                     Skyname = bin.ReadString();
                     TgaPath = bin.ReadString();
@@ -142,13 +142,13 @@ namespace SourceRecordingTool
 
         public void LoadDefault(bool resetDirs)
         {
-            GameIndex = 12;
+            GameIndex = 13;
             DXLevel = 98;
             Width = 1920;
             Height = 1080;
             Framerate = 60;
             Config = "tf2-movie.cfg";
-            custom = new string[0];
+            customItems = new string[0];
             Skyname = "";
 
             if (resetDirs)
@@ -201,10 +201,10 @@ namespace SourceRecordingTool
             Config = mainForm.ConfigComboBox.SelectedIndex == 0 ? "" : mainForm.ConfigComboBox.Text;
 
             CheckedListBox.CheckedItemCollection customCheckedItems = mainForm.CustomCheckedListBox.CheckedItems;
-            custom = new string[customCheckedItems.Count];
+            customItems = new string[customCheckedItems.Count];
 
             for (int i = 0; i < customCheckedItems.Count; i++)
-                custom[i] = (string)customCheckedItems[i];
+                customItems[i] = (string)customCheckedItems[i];
 
             TgaPath = mainForm.TgaTextBox.Text;
             VideoPath = mainForm.VideoTextBox.Text;
@@ -265,12 +265,25 @@ namespace SourceRecordingTool
             else
                 mainForm.ConfigComboBox.SelectedItem = Config;
 
-            foreach (string item in custom)
+            CheckedListBox.ObjectCollection customItemsCollection = mainForm.CustomCheckedListBox.Items;
+            for (int i = 0; i < customItemsCollection.Count; i++)
             {
-                int index = mainForm.CustomCheckedListBox.Items.IndexOf(item);
+                string currentItem = (string)customItemsCollection[i];
+                bool found = false;
 
-                if (index != -1)
-                    mainForm.CustomCheckedListBox.SetItemChecked(index, true);
+                for (int j = 0; j < customItems.Length; j++)
+                {
+                    if (currentItem == customItems[j])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found)
+                    mainForm.CustomCheckedListBox.SetItemChecked(i, true);
+                else
+                    mainForm.CustomCheckedListBox.SetItemChecked(i, false);
             }
 
             if (Skybox != null)

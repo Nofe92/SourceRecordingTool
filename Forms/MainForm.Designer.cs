@@ -129,8 +129,8 @@
             this.DailyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EverytimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.restoreBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewBackupFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restoreBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearBackupCacheToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vdmCreatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -257,7 +257,7 @@
             this.startGameButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.startGameButton.Enabled = false;
             this.startGameButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startGameButton.Location = new System.Drawing.Point(168, 552);
+            this.startGameButton.Location = new System.Drawing.Point(168, 577);
             this.startGameButton.Name = "startGameButton";
             this.startGameButton.Size = new System.Drawing.Size(300, 47);
             this.startGameButton.TabIndex = 20;
@@ -403,7 +403,7 @@
             this.TgaListView.HideSelection = false;
             this.TgaListView.Location = new System.Drawing.Point(524, 165);
             this.TgaListView.Name = "TgaListView";
-            this.TgaListView.Size = new System.Drawing.Size(548, 352);
+            this.TgaListView.Size = new System.Drawing.Size(548, 377);
             this.TgaListView.TabIndex = 29;
             this.TgaListView.UseCompatibleStateImageBehavior = false;
             this.TgaListView.View = System.Windows.Forms.View.Details;
@@ -503,7 +503,7 @@
             this.startCompilingButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.startCompilingButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startCompilingButton.Location = new System.Drawing.Point(524, 552);
+            this.startCompilingButton.Location = new System.Drawing.Point(524, 577);
             this.startCompilingButton.Name = "startCompilingButton";
             this.startCompilingButton.Size = new System.Drawing.Size(548, 47);
             this.startCompilingButton.TabIndex = 32;
@@ -560,7 +560,7 @@
             this.CodecComboBox.Items.AddRange(new object[] {
             "Uncompressed",
             "Lagarith Lossless Codec"});
-            this.CodecComboBox.Location = new System.Drawing.Point(630, 523);
+            this.CodecComboBox.Location = new System.Drawing.Point(630, 548);
             this.CodecComboBox.Name = "CodecComboBox";
             this.CodecComboBox.Size = new System.Drawing.Size(442, 23);
             this.CodecComboBox.TabIndex = 31;
@@ -569,7 +569,7 @@
             // 
             this.codecLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.codecLabel.ForeColor = System.Drawing.Color.Navy;
-            this.codecLabel.Location = new System.Drawing.Point(474, 523);
+            this.codecLabel.Location = new System.Drawing.Point(474, 548);
             this.codecLabel.Name = "codecLabel";
             this.codecLabel.Padding = new System.Windows.Forms.Padding(50, 0, 0, 0);
             this.codecLabel.Size = new System.Drawing.Size(150, 23);
@@ -1056,19 +1056,19 @@
             this.toolStripSeparator12.Name = "toolStripSeparator12";
             this.toolStripSeparator12.Size = new System.Drawing.Size(172, 6);
             // 
-            // restoreBackupToolStripMenuItem
-            // 
-            this.restoreBackupToolStripMenuItem.Name = "restoreBackupToolStripMenuItem";
-            this.restoreBackupToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.restoreBackupToolStripMenuItem.Text = "Restore Backup...";
-            this.restoreBackupToolStripMenuItem.Click += new System.EventHandler(this.restoreBackupToolStripMenuItem_Click);
-            // 
             // viewBackupFolderToolStripMenuItem
             // 
             this.viewBackupFolderToolStripMenuItem.Name = "viewBackupFolderToolStripMenuItem";
             this.viewBackupFolderToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.viewBackupFolderToolStripMenuItem.Text = "View Backup folder";
             this.viewBackupFolderToolStripMenuItem.Click += new System.EventHandler(this.viewBackupFolderToolStripMenuItem_Click);
+            // 
+            // restoreBackupToolStripMenuItem
+            // 
+            this.restoreBackupToolStripMenuItem.Name = "restoreBackupToolStripMenuItem";
+            this.restoreBackupToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.restoreBackupToolStripMenuItem.Text = "Restore Backup...";
+            this.restoreBackupToolStripMenuItem.Click += new System.EventHandler(this.restoreBackupToolStripMenuItem_Click);
             // 
             // clearBackupCacheToolStripMenuItem
             // 
@@ -1163,7 +1163,7 @@
             this.skyboxLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.skyboxLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.skyboxLabel.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.skyboxLabel.Location = new System.Drawing.Point(12, 415);
+            this.skyboxLabel.Location = new System.Drawing.Point(12, 440);
             this.skyboxLabel.Name = "skyboxLabel";
             this.skyboxLabel.Size = new System.Drawing.Size(456, 40);
             this.skyboxLabel.TabIndex = 18;
@@ -1174,7 +1174,7 @@
             // 
             this.skyboxNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.skyboxNameLabel.ForeColor = System.Drawing.Color.Navy;
-            this.skyboxNameLabel.Location = new System.Drawing.Point(12, 471);
+            this.skyboxNameLabel.Location = new System.Drawing.Point(12, 496);
             this.skyboxNameLabel.Name = "skyboxNameLabel";
             this.skyboxNameLabel.Padding = new System.Windows.Forms.Padding(50, 0, 0, 0);
             this.skyboxNameLabel.Size = new System.Drawing.Size(150, 23);
@@ -1192,7 +1192,7 @@
             this.CustomCheckedListBox.FormattingEnabled = true;
             this.CustomCheckedListBox.Location = new System.Drawing.Point(168, 318);
             this.CustomCheckedListBox.Name = "CustomCheckedListBox";
-            this.CustomCheckedListBox.Size = new System.Drawing.Size(300, 94);
+            this.CustomCheckedListBox.Size = new System.Drawing.Size(300, 112);
             this.CustomCheckedListBox.TabIndex = 17;
             // 
             // customContextMenuStrip
@@ -1244,7 +1244,7 @@
             // 
             this.SkyboxPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SkyboxPictureBox.Image = global::SourceRecordingTool.Properties.Resources.defaultskybox;
-            this.SkyboxPictureBox.Location = new System.Drawing.Point(168, 471);
+            this.SkyboxPictureBox.Location = new System.Drawing.Point(168, 496);
             this.SkyboxPictureBox.Name = "SkyboxPictureBox";
             this.SkyboxPictureBox.Size = new System.Drawing.Size(300, 75);
             this.SkyboxPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1267,7 +1267,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 611);
+            this.ClientSize = new System.Drawing.Size(1084, 636);
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.generalLabel);
             this.Controls.Add(this.gameLabel);

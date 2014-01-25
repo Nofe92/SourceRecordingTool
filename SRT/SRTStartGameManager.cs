@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SourceRecordingTool
 {
-    public static class StartGameManager
+    public static class SRTStartGameManager
     {
         public static List<RecordingRange> RecordingRanges = new List<RecordingRange>();
         private static List<RecordingRange> localRecordingRange = new List<RecordingRange>();
@@ -457,7 +457,8 @@ namespace SourceRecordingTool
 
         private static void CreateCustom()
         {
-            DirectoryEx.Copy("moviefiles\\custom", custom);
+            for (int i = 0; i < profile.customItems.Length; i++)
+                DirectoryEx.Copy("moviefiles\\custom\\" + profile.customItems[i], custom + "\\" + profile.customItems[i]);
         }
 
         private static void CreateSkybox()

@@ -1,6 +1,6 @@
 ﻿namespace SourceRecordingTool
 {
-    partial class RecordingRangeDialog
+    partial class RecordingRangeForm
     {
         /// <summary>
         /// Required designer variable.

@@ -18,7 +18,7 @@ namespace SourceRecordingTool
         private List<DemoFile> demoFiles = new List<DemoFile>();
         private ListViewItem[] listViewItemCache;
         private List<ListViewItem> demoFilesFilter = new List<ListViewItem>();
-        private RecordingRangeDialog recordingRangeDialog = new RecordingRangeDialog();
+        private RecordingRangeForm recordingRangeDialog = new RecordingRangeForm();
         private int lastColumnIndex = -1;
         private bool reverse = false;
         
@@ -254,7 +254,7 @@ namespace SourceRecordingTool
             if (demosListView.SelectedIndices.Count != 1)
                 return;
 
-            StartGameManager.StartASync(((DemoFile)(demoFilesFilter[demosListView.SelectedIndices[0]].Tag)).FullName);
+            SRTStartGameManager.StartASync(((DemoFile)(demoFilesFilter[demosListView.SelectedIndices[0]].Tag)).FullName);
         }
 
         private void viewDemosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -267,7 +267,7 @@ namespace SourceRecordingTool
 
         private void deleteDemosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Dialogs.Question("Are you sure to delete the selected demos?"))
+            if (!Dialogs.Question("Are you sure to permanently delete the selected demos?"))
                 return;
 
             for (int i = demosListView.SelectedIndices.Count - 1; i >= 0; i--)
@@ -361,7 +361,7 @@ namespace SourceRecordingTool
                 return;
             }
 
-            if (StartGameManager.Running)
+            if (SRTStartGameManager.Running)
             {
                 Dialogs.Warning("Game is already running");
                 return;

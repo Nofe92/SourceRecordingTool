@@ -155,7 +155,7 @@
             this.demosListView.HideSelection = false;
             this.demosListView.Location = new System.Drawing.Point(12, 150);
             this.demosListView.Name = "demosListView";
-            this.demosListView.Size = new System.Drawing.Size(1060, 204);
+            this.demosListView.Size = new System.Drawing.Size(1060, 229);
             this.demosListView.TabIndex = 7;
             this.demosListView.UseCompatibleStateImageBehavior = false;
             this.demosListView.View = System.Windows.Forms.View.Details;
@@ -246,7 +246,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rangesLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rangesLabel.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.rangesLabel.Location = new System.Drawing.Point(12, 357);
+            this.rangesLabel.Location = new System.Drawing.Point(12, 382);
             this.rangesLabel.Name = "rangesLabel";
             this.rangesLabel.Size = new System.Drawing.Size(1060, 40);
             this.rangesLabel.TabIndex = 8;
@@ -264,7 +264,7 @@
             this.endTickColumnHeader});
             this.rangesListView.ContextMenuStrip = this.rangesContextMenuStrip;
             this.rangesListView.FullRowSelect = true;
-            this.rangesListView.Location = new System.Drawing.Point(12, 400);
+            this.rangesListView.Location = new System.Drawing.Point(12, 425);
             this.rangesListView.Name = "rangesListView";
             this.rangesListView.Size = new System.Drawing.Size(854, 200);
             this.rangesListView.TabIndex = 9;
@@ -323,7 +323,7 @@
             // addRangeButton
             // 
             this.addRangeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.addRangeButton.Location = new System.Drawing.Point(872, 400);
+            this.addRangeButton.Location = new System.Drawing.Point(872, 425);
             this.addRangeButton.Name = "addRangeButton";
             this.addRangeButton.Size = new System.Drawing.Size(200, 30);
             this.addRangeButton.TabIndex = 10;
@@ -335,7 +335,7 @@
             // 
             this.editRangeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.editRangeButton.Enabled = false;
-            this.editRangeButton.Location = new System.Drawing.Point(872, 436);
+            this.editRangeButton.Location = new System.Drawing.Point(872, 461);
             this.editRangeButton.Name = "editRangeButton";
             this.editRangeButton.Size = new System.Drawing.Size(200, 30);
             this.editRangeButton.TabIndex = 11;
@@ -347,7 +347,7 @@
             // 
             this.deleteRangeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteRangeButton.Enabled = false;
-            this.deleteRangeButton.Location = new System.Drawing.Point(872, 472);
+            this.deleteRangeButton.Location = new System.Drawing.Point(872, 497);
             this.deleteRangeButton.Name = "deleteRangeButton";
             this.deleteRangeButton.Size = new System.Drawing.Size(200, 30);
             this.deleteRangeButton.TabIndex = 12;
@@ -370,7 +370,7 @@
             // 
             this.startRecordingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.startRecordingButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startRecordingButton.Location = new System.Drawing.Point(872, 552);
+            this.startRecordingButton.Location = new System.Drawing.Point(872, 577);
             this.startRecordingButton.Name = "startRecordingButton";
             this.startRecordingButton.Size = new System.Drawing.Size(200, 47);
             this.startRecordingButton.TabIndex = 13;
@@ -385,7 +385,7 @@
             this.modeComboBox.Items.AddRange(new object[] {
             "TGA-Sequence",
             "MP4-Video"});
-            this.modeComboBox.Location = new System.Drawing.Point(872, 523);
+            this.modeComboBox.Location = new System.Drawing.Point(872, 548);
             this.modeComboBox.Name = "modeComboBox";
             this.modeComboBox.Size = new System.Drawing.Size(200, 23);
             this.modeComboBox.TabIndex = 14;
@@ -394,7 +394,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 611);
+            this.ClientSize = new System.Drawing.Size(1084, 636);
             this.Controls.Add(this.modeComboBox);
             this.Controls.Add(this.startRecordingButton);
             this.Controls.Add(this.directoriesLabel);

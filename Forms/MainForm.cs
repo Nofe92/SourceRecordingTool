@@ -21,7 +21,6 @@ namespace SourceRecordingTool
 
         private FileSystemWatcher cfgFileSystemWatcher;
         private FileSystemWatcher customFileSystemWatcher;
-        private FileSystemWatcher customDisabledFileSystemWatcher;
         private FileSystemWatcher skyboxFileSystemWatcher;
         private OpenFileDialog openDemoDialog;
         private OpenFileDialog openProfileDialog;
@@ -29,7 +28,6 @@ namespace SourceRecordingTool
         private VDMForm vdmForm;
         private string jobsPath;
         private bool virtualDubRunning = false;
-        private bool disableCustomEvents = false;
 
         public MainForm()
         {
@@ -69,7 +67,7 @@ namespace SourceRecordingTool
 
             CurrentProfile.UpdateForm(this);
 
-            StartGameManager.GameClosed += AfterGame;
+            SRTStartGameManager.GameClosed += AfterGame;
             ResolutionComboBox.TextChanged += new EventHandler(ResolutionComboBox_TextChanged);
             FramerateComboBox.TextChanged += new EventHandler(FramerateComboBox_TextChanged);
 
@@ -120,12 +118,8 @@ namespace SourceRecordingTool
         private void InitializeCustom()
         {
             Directory.CreateDirectory("moviefiles\\custom");
-            Directory.CreateDirectory("moviefiles\\custom_disabled");
 
             foreach (string file in Directory.EnumerateFileSystemEntries("moviefiles\\custom"))
-                CustomCheckedListBox.Items.Add(Path.GetFileName(file), true);
-
-            foreach (string file in Directory.EnumerateFileSystemEntries("moviefiles\\custom_disabled"))
                 CustomCheckedListBox.Items.Add(Path.GetFileName(file), false);
 
             customFileSystemWatcher = new FileSystemWatcher("moviefiles\\custom");
@@ -135,18 +129,9 @@ namespace SourceRecordingTool
             customFileSystemWatcher.Deleted += new FileSystemEventHandler(customFileSystemWatcher_Deleted);
             customFileSystemWatcher.Renamed += new RenamedEventHandler(customFileSystemWatcher_Renamed);
 
-            customDisabledFileSystemWatcher = new FileSystemWatcher("moviefiles\\custom_disabled");
-            customDisabledFileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            customDisabledFileSystemWatcher.SynchronizingObject = this;
-            customDisabledFileSystemWatcher.Created += new FileSystemEventHandler(customFileSystemWatcher_Created);
-            customDisabledFileSystemWatcher.Deleted += new FileSystemEventHandler(customFileSystemWatcher_Deleted);
-            customDisabledFileSystemWatcher.Renamed += new RenamedEventHandler(customFileSystemWatcher_Renamed);
-
             customFileSystemWatcher.EnableRaisingEvents = true;
-            customDisabledFileSystemWatcher.EnableRaisingEvents = true;
 
             CustomCheckedListBox.MouseDown += CustomCheckedListBox_MouseDown;
-            CustomCheckedListBox.ItemCheck += CustomCheckedListBox_ItemCheck;
         }
 
         private void InitializeSkybox()
@@ -350,27 +335,6 @@ namespace SourceRecordingTool
                 CustomCheckedListBox.SelectedIndex = CustomCheckedListBox.IndexFromPoint(e.Location);
         }
 
-        private void CustomCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (disableCustomEvents)
-                return;
-
-            if ((e.NewValue = e.CurrentValue) == CheckState.Checked)
-            {
-                if (File.Exists("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]))
-                    File.Move("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]);
-                else if (Directory.Exists("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]))
-                    Directory.Move("moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]);
-            }
-            else
-            {
-                if (File.Exists("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]))
-                    File.Move("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]);
-                else if (Directory.Exists("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index]))
-                    Directory.Move("moviefiles\\custom_disabled\\" + CustomCheckedListBox.Items[e.Index], "moviefiles\\custom\\" + CustomCheckedListBox.Items[e.Index]);
-            }
-        }
-
         private void cfgFileSystemWatcher_Created(object sender, FileSystemEventArgs e)
         {
             ConfigComboBox.Items.Add(e.Name);
@@ -401,32 +365,20 @@ namespace SourceRecordingTool
 
         private void customFileSystemWatcher_Created(object sender, FileSystemEventArgs e)
         {
-            disableCustomEvents = true;
-            int index = CustomCheckedListBox.Items.IndexOf(e.Name);
-
-            if (index == -1)
-                CustomCheckedListBox.Items.Add(e.Name, sender == customFileSystemWatcher);
-            else
-                CustomCheckedListBox.SetItemChecked(index, sender == customFileSystemWatcher);
-            disableCustomEvents = false;
+            CustomCheckedListBox.Items.Add(e.Name, false);
         }
 
         private void customFileSystemWatcher_Renamed(object sender, RenamedEventArgs e)
         {
-            disableCustomEvents = true;
             int index = CustomCheckedListBox.Items.IndexOf(e.OldName);
 
             if (index != -1)
                 CustomCheckedListBox.Items[index] = e.Name;
-            disableCustomEvents = false;
         }
 
         private void customFileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            disableCustomEvents = true;
-            if (!Directory.Exists("moviefiles\\" + (sender == customFileSystemWatcher ? "custom_disabled\\" : "custom\\") + e.Name) && !File.Exists("moviefiles\\" + (sender == customFileSystemWatcher ? "custom_disabled\\" : "custom\\") + e.Name))
-                CustomCheckedListBox.Items.Remove(e.Name);
-            disableCustomEvents = false;
+            CustomCheckedListBox.Items.Remove(e.Name);
         }
 
         #region CustomContextMenu
@@ -441,18 +393,12 @@ namespace SourceRecordingTool
 
         private void viewCustomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CustomCheckedListBox.GetItemChecked(CustomCheckedListBox.SelectedIndex))
-                Shell.OpenExplorer("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
-            else
-                Shell.OpenExplorer("moviefiles\\custom_disabled\\" + (string)CustomCheckedListBox.SelectedItem);
+            Shell.OpenExplorer("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
         }
 
         private void viewContentsCustomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CustomCheckedListBox.GetItemChecked(CustomCheckedListBox.SelectedIndex))
-                Shell.Open("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
-            else
-                Shell.Open("moviefiles\\custom_disabled\\" + (string)CustomCheckedListBox.SelectedItem);
+            Shell.Open("moviefiles\\custom\\" + (string)CustomCheckedListBox.SelectedItem);
         }
 
         private void selectAllCustomToolStripMenuItem_Click(object sender, EventArgs e)
@@ -496,7 +442,7 @@ namespace SourceRecordingTool
         private void StartGame()
         {
             CurrentProfile.UpdateProfile(this);
-            StartGameManager.StartASync();
+            SRTStartGameManager.StartASync();
         }
 
         private void AfterGame(bool success)
@@ -734,17 +680,7 @@ namespace SourceRecordingTool
             if (TgaListView.SelectedItems.Count == 0)
                 return;
 
-            StringBuilder items = new StringBuilder();
-
-            for (int i = 0; i < TgaListView.SelectedItems.Count - 1; i++)
-            {
-                items.Append(TgaListView.SelectedItems[i].Text);
-                items.Append(", ");
-            }
-
-            items.Append(TgaListView.SelectedItems[TgaListView.SelectedItems.Count - 1].Text);
-
-            if (Dialogs.Question("Are you sure to permanently delete the following TGA-Sequences: " + items.ToString()))
+            if (Dialogs.Question("Are you sure to permanently delete the selected TGA-Sequences?"))
             {
                 foreach (ListViewItem item in TgaListView.SelectedItems)
                 {
@@ -793,7 +729,7 @@ namespace SourceRecordingTool
         private void OpenDemo(string path)
         {
             CurrentProfile.UpdateProfile(this);
-            StartGameManager.StartASync(path);
+            SRTStartGameManager.StartASync(path);
             CurrentProfile.UpdateForm(this);
         }
 
@@ -1033,10 +969,10 @@ namespace SourceRecordingTool
             {
                 CurrentProfile.ScheduledRecordingMode = vdmForm.modeComboBox.SelectedIndex;
 
-                StartGameManager.RecordingRanges.Clear();
-                StartGameManager.RecordingRanges.AddRange(vdmForm.RecordingRanges);
+                SRTStartGameManager.RecordingRanges.Clear();
+                SRTStartGameManager.RecordingRanges.AddRange(vdmForm.RecordingRanges);
 
-                StartGameManager.StartASync();
+                SRTStartGameManager.StartASync();
             }
         }
         #endregion
@@ -1083,10 +1019,10 @@ namespace SourceRecordingTool
                 "Config\r\n" +
                 "\tgeneric-movie.cfg\t- Aron\r\n" +
                 "\tgeneric-play.cfg\t- Aron\r\n" +
-                "\tcsgo-movie.cfg\t- Aron (csgo-specific commands merged from Mrtweeday's config)\r\n" +
-                "\tcsgo-play.cfg\t- Aron (csgo-specific commands merged from Mrtweeday's config)\r\n" +
                 "\ttf2-movie.cfg\t- Aron\r\n" +
                 "\ttf2-play.cfg\t- Aron\r\n" +
+                "\tcsgo-movie.cfg\t- Aron (csgo-specific commands merged from Mrtweeday's config)\r\n" +
+                "\tcsgo-play.cfg\t- Aron (csgo-specific commands merged from Mrtweeday's config)\r\n" +
                 "\r\n" +
                 "Custom\r\n" +
                 "\ttf2-moviehud\t- python\r\n" +
