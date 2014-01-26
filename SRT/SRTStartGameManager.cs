@@ -89,6 +89,7 @@ namespace SourceRecordingTool
 
                 MoveFolders();
                 MoveRegistry();
+
                 try
                 {
                     CreateAddons();

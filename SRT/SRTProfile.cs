@@ -36,7 +36,7 @@ namespace SourceRecordingTool
         public int AfterRecording;
         public bool CreateBackups;
         public int BackupMode;
-
+        
         public SRTGame Game
         {
             get { return SRTGame.AllGames[GameIndex]; }
@@ -142,7 +142,7 @@ namespace SourceRecordingTool
 
         public void LoadDefault(bool resetDirs)
         {
-            GameIndex = 13;
+            GameIndex = 0;
             DXLevel = 98;
             Width = 1920;
             Height = 1080;

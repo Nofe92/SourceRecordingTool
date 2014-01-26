@@ -63,7 +63,7 @@ namespace SourceRecordingTool
             vdmForm = new VDMForm();
 
             Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
-            Text = "Aron's Source Recording Tool " + Updater.currentVersion.ToString();
+            Text = "Aron's Source Recording Tool " + Updater.LocalGUIVersion.ToString();
 
             CurrentProfile.UpdateForm(this);
 
@@ -73,8 +73,6 @@ namespace SourceRecordingTool
 
             RefreshDatarate();
             RefreshTGASequences(false);
-
-            Updater.CheckForUpdatesASync();
         }
 
         private void InitializeGame()
@@ -95,7 +93,11 @@ namespace SourceRecordingTool
             SRTGame TF2 = new SRTGame(440, "Team Fortress 2", "Team Fortress 2", "tf", "hl2.exe", "sky_alpinestorm_01", "sky_badlands_01", "sky_dustbowl_01", "sky_dustbowl_01_hdr", "sky_goldrush_01", "sky_granary_01", "sky_granary_01_hdr", "sky_gravel_01", "sky_gravel_01_hdr", "sky_halloween", "sky_halloween_night_01", "sky_halloween_night_01_hdr", "sky_harvest_01", "sky_harvest_01_hdr", "sky_harvest_night_01", "sky_hydro_01", "sky_hydro_01_hdr", "sky_morningsnow_01", "sky_nightfall_01", "sky_night_01", "sky_rainbow_01", "sky_stormfront_01", "sky_tf2_04", "sky_tf2_04_hdr", "sky_trainyard_01", "sky_upward", "sky_upward_hdr", "sky_well_01", "sky_well_01_hdr");
 
             SRTGame.AllGames = new SRTGame[] { CSGO, CSS, DODS, DOTA2, HL2, HL2DM, HL2EP1, HL2EP2, HL2LOSTCOAST, L4D, L4D2, PORTAL, PORTAL2, TF2 };
-            GameComboBox.DataSource = SRTGame.AllGames;
+
+            foreach (SRTGame game in SRTGame.AllGames)
+            {
+                GameComboBox.Items.Add(game.Name);
+            }
         }
 
         private void InitializeConfig()
@@ -986,16 +988,6 @@ namespace SourceRecordingTool
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Shell.Open("moviefiles\\help\\Keyboard.png");
-        }
-
-        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Updater.CheckForUpdates() == UpdateState.Latest)
-                Dialogs.Information("Your version is up-to-date");
-        }
-        private void viewChangelogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Updater.ShowChangelogForm();
         }
 
         private void forumToolStripMenuItem_Click(object sender, EventArgs e)

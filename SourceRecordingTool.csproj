@@ -64,12 +64,20 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.FileSystem">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\DownloadFileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DownloadFileForm.Designer.cs">
+      <DependentUpon>DownloadFileForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="IO\DirectoryEx.cs" />
     <Compile Include="IO\FileEx.cs" />
     <Compile Include="IO\PathEx.cs" />
@@ -115,6 +123,9 @@
     <Compile Include="VDM\RecordingRange.cs" />
     <Compile Include="Updater\Updater.cs" />
     <Compile Include="Win32.cs" />
+    <EmbeddedResource Include="Forms\DownloadFileForm.resx">
+      <DependentUpon>DownloadFileForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

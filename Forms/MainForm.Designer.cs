@@ -138,8 +138,6 @@
             this.tutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.keyboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewChangelogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.forumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1097,8 +1095,6 @@
             this.tutorialToolStripMenuItem,
             this.keyboardToolStripMenuItem,
             this.toolStripSeparator13,
-            this.checkForUpdatesToolStripMenuItem,
-            this.viewChangelogToolStripMenuItem,
             this.forumToolStripMenuItem,
             this.toolStripSeparator14,
             this.aboutToolStripMenuItem});
@@ -1124,20 +1120,6 @@
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
             this.toolStripSeparator13.Size = new System.Drawing.Size(244, 6);
-            // 
-            // checkForUpdatesToolStripMenuItem
-            // 
-            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
-            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
-            // 
-            // viewChangelogToolStripMenuItem
-            // 
-            this.viewChangelogToolStripMenuItem.Name = "viewChangelogToolStripMenuItem";
-            this.viewChangelogToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.viewChangelogToolStripMenuItem.Text = "View Changelog";
-            this.viewChangelogToolStripMenuItem.Click += new System.EventHandler(this.viewChangelogToolStripMenuItem_Click);
             // 
             // forumToolStripMenuItem
             // 
@@ -1374,7 +1356,6 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tutorialToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
-        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem forumToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
@@ -1437,7 +1418,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem selectAllCustomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneCustomToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewChangelogToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader sizeColumnHeader;
         private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.ToolStripMenuItem openCommonPathToolStripMenuItem;

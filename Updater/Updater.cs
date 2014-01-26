@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -12,32 +13,72 @@ using System.Xml.Linq;
 
 namespace SourceRecordingTool
 {
-    public enum UpdateState
-    {
-        Latest,
-        Update,
-        NoConnection,
-    }
-
     public static class Updater
     {
         public static string[] Mirrors = new string[]
         {
             "http://hl3mukkel.url.ph/SourceRecordingTool",
-            "http://hl3mukkel.bugs3.com/SourceRecordingTool",
         };
-        public static string ChangelogLink;
-        public static string DownloadLink;
-        public static Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-        public static Version latestVersion;
 
-        public static void CheckForUpdatesASync()
+        public static Version LocalGUIVersion;
+        public static Version LocalMoviefilesVersion;
+        public static Version RemoteGUIVersion;
+        public static Version RemoteMoviefilesVersion;
+        private static XDocument version;
+        private static string mirror;
+
+        public static bool Update()
         {
-            Thread updateThread = new Thread(() => CheckForUpdates());
-            updateThread.Start();
+            LocalGUIVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            if (File.Exists("moviefiles\\version.txt"))
+                LocalMoviefilesVersion = new Version(File.ReadAllText("moviefiles\\version.txt"));
+            else
+                LocalMoviefilesVersion = new Version(0, 0, 0, 0);
+
+            if (!DownloadVersion())
+                return true;
+            try
+            {
+                RemoteMoviefilesVersion = new Version(version.Root.Element("moviefiles").Element("Version").Value);
+                if (LocalMoviefilesVersion < RemoteMoviefilesVersion)
+                {
+                    DownloadFileForm.Start(version.Root.Element("moviefiles").Element("Download").Value.Replace("%MIRROR%", mirror), "moviefiles.zip");
+
+                    if (Directory.Exists("moviefiles"))
+                        Directory.Move("moviefiles", "moviefiles_" + LocalMoviefilesVersion.ToString());
+
+                    ZipFile.ExtractToDirectory("moviefiles.zip", "moviefiles");
+                    File.Delete("moviefiles.zip");
+                }
+
+                string executablePath = Application.ExecutablePath;
+                string downloadPath = executablePath + ".download";
+                string oldPath = executablePath + ".old";
+
+                if (File.Exists(oldPath))
+                    File.Delete(oldPath);
+
+                RemoteGUIVersion = new Version(version.Root.Element("GUI").Element("Version").Value);
+                if (LocalGUIVersion < RemoteGUIVersion)
+                {
+                    DownloadFileForm.Start(version.Root.Element("GUI").Element("Download").Value.Replace("%MIRROR%", mirror), downloadPath);
+
+                    File.Move(executablePath, oldPath);
+                    File.Move(downloadPath, executablePath);
+
+                    Shell.Open(executablePath);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Dialogs.Error(ex.Message);
+            }
+
+            return true;
         }
 
-        public static UpdateState CheckForUpdates()
+        public static bool DownloadVersion()
         {
             System.Collections.IEnumerator mirrorsEnum = Mirrors.GetEnumerator();
 
@@ -45,27 +86,9 @@ namespace SourceRecordingTool
             {
                 try
                 {
-                    XDocument version = XDocument.Load((string)mirrorsEnum.Current + "/version.xml");
-                    
-                    latestVersion = Version.Parse(version.Root.Element("Version").Value);
-
-                    if (version.Root.Elements("ChangelogEx").Any())
-                        ChangelogLink = version.Root.Element("ChangelogEx").Value.Replace("%MIRROR%", (string)mirrorsEnum.Current);
-                    else
-                        ChangelogLink = version.Root.Element("Changelog").Value;
-
-                    if (version.Root.Elements("DownloadLinkEx").Any())
-                        DownloadLink = version.Root.Element("DownloadLinkEx").Value.Replace("%MIRROR%", (string)mirrorsEnum.Current);
-                    else
-                        DownloadLink = version.Root.Element("DownloadLink").Value;
-
-                    if (currentVersion < latestVersion)
-                    {
-                        ShowUpdateForm();
-                        return UpdateState.Update;
-                    }
-
-                    return UpdateState.Latest;
+                    mirror = (string)mirrorsEnum.Current;
+                    version = XDocument.Load(mirror + "/version2.xml");
+                    return true;
                 }
                 catch
                 {
@@ -74,50 +97,7 @@ namespace SourceRecordingTool
             }
 
             Dialogs.Error("No Connection to update servers.");
-            return UpdateState.NoConnection;
-        }
-
-        public static string GetChangelog()
-        {
-            if (String.IsNullOrEmpty(ChangelogLink) || latestVersion == null)
-                throw new Exception("No Connection to update servers.");
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ChangelogLink);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream responseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(responseStream, Encoding.ASCII);
-
-            string result = reader.ReadToEnd();
-
-            reader.Close();
-            response.Close();
-
-            return result;
-        }
-
-        public static void ShowChangelogForm()
-        {
-            RichTextBoxForm form = new RichTextBoxForm("Changelog",
-                GetChangelog(),
-                true);
-
-            form.ShowDialog();
-            form.Dispose();
-        }
-
-        public static void ShowUpdateForm()
-        {
-            RichTextBoxForm form = new RichTextBoxForm("Version " + latestVersion.ToString() + " available!",
-                "A new version is available! Would you like to download it?\r\n" +
-                "\r\n" +
-                "Changelog:\r\n" +
-                GetChangelog(),
-                false);
-
-            if (form.ShowDialog() == DialogResult.OK)
-                Shell.Open(DownloadLink);
-
-            form.Dispose();
+            return false;
         }
     }
 }
