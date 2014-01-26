@@ -32,7 +32,7 @@ namespace SourceRecordingTool
             Win32.SetWindowTheme(demosListView.Handle, "explorer", null);
             Win32.SetWindowTheme(rangesListView.Handle, "explorer", null);
 
-            pathTextBox.Text = MainForm.CurrentProfile.Game.ShortNamePath;
+            pathTextBox.Text = SRTGame.AllGames[MainForm.CurrentProfile.GameIndex].ShortNamePath;
             filterTextBox.Select();
 
             modeComboBox.SelectedIndex = MainForm.CurrentProfile.ScheduledRecordingMode;

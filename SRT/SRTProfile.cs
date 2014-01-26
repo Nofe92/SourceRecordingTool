@@ -36,16 +36,6 @@ namespace SourceRecordingTool
         public int AfterRecording;
         public bool CreateBackups;
         public int BackupMode;
-        
-        public SRTGame Game
-        {
-            get { return SRTGame.AllGames[GameIndex]; }
-        }
-
-        public SRTSkybox Skybox
-        {
-            get { return SRTSkybox.FindSkyboxByName(Skyname); }
-        }
 
         public static SRTProfile FromFile(string fileName)
         {
@@ -60,7 +50,7 @@ namespace SourceRecordingTool
 
             using (BinaryWriter bin = new BinaryWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read), Encoding.Unicode))
             {
-                bin.Write(Array.IndexOf(SRTGame.AllGames, Game));
+                bin.Write(GameIndex);
                 bin.Write(DXLevel);
                 bin.Write(Width);
                 bin.Write(Height);
@@ -71,11 +61,7 @@ namespace SourceRecordingTool
                 for (int i = 0; i < customItems.Length; i++)
                     bin.Write(customItems[i]);
 
-                if (Skybox == null)
-                    bin.Write("");
-                else
-                    bin.Write(Skybox.Name);
-
+                bin.Write(Skyname);
                 bin.Write(TgaPath);
                 bin.Write(VideoPath);
                 bin.Write(VDubPath);
@@ -142,12 +128,12 @@ namespace SourceRecordingTool
 
         public void LoadDefault(bool resetDirs)
         {
-            GameIndex = 0;
+            GameIndex = -1;
             DXLevel = 98;
             Width = 1920;
             Height = 1080;
             Framerate = 60;
-            Config = "tf2-movie.cfg";
+            Config = "";
             customItems = new string[0];
             Skyname = "";
 
@@ -176,7 +162,7 @@ namespace SourceRecordingTool
 
         public void UpdateProfile(MainForm mainForm)
         {
-            GameIndex = mainForm.GameComboBox.SelectedIndex;
+            GameIndex = mainForm.GameComboBox.SelectedIndex - 1;
 
             switch (mainForm.DirectXComboBox.SelectedIndex)
             {
@@ -235,7 +221,7 @@ namespace SourceRecordingTool
 
         private void InternalUpdateForm(MainForm mainForm)
         {
-            mainForm.GameComboBox.SelectedIndex = Array.IndexOf(SRTGame.AllGames, Game);
+            mainForm.GameComboBox.SelectedIndex = GameIndex + 1;
 
             switch (DXLevel)
             {
@@ -286,10 +272,10 @@ namespace SourceRecordingTool
                     mainForm.CustomCheckedListBox.SetItemChecked(i, false);
             }
 
-            if (Skybox != null)
-                mainForm.SkyboxPictureBox.Image = Skybox.PreviewImage;
-            else
+            if (Skyname == "")
                 mainForm.SkyboxPictureBox.Image = Properties.Resources.defaultskybox;
+            else
+                mainForm.SkyboxPictureBox.Image = SRTSkybox.FindSkyboxByName(Skyname).PreviewImage;
 
             mainForm.TgaTextBox.Text = TgaPath;
             mainForm.VideoTextBox.Text = VideoPath;

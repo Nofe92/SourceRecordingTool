@@ -29,20 +29,21 @@ namespace SourceRecordingTool
 
         public static bool Update()
         {
-            LocalGUIVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            if (File.Exists("moviefiles\\version.txt"))
-                LocalMoviefilesVersion = new Version(File.ReadAllText("moviefiles\\version.txt"));
-            else
-                LocalMoviefilesVersion = new Version(0, 0, 0, 0);
-
-            if (!DownloadVersion())
-                return true;
             try
             {
+                LocalGUIVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                LocalMoviefilesVersion = new Version(File.ReadAllText("moviefiles\\version.txt"));
+
+                if (!DownloadVersion())
+                    return true;
+
+                RemoteGUIVersion = new Version(version.Root.Element("GUI").Element("Version").Value);
                 RemoteMoviefilesVersion = new Version(version.Root.Element("moviefiles").Element("Version").Value);
+
                 if (LocalMoviefilesVersion < RemoteMoviefilesVersion)
                 {
-                    DownloadFileForm.Start(version.Root.Element("moviefiles").Element("Download").Value.Replace("%MIRROR%", mirror), "moviefiles.zip");
+                    if (!DownloadFileForm.Start(version.Root.Element("moviefiles").Element("Download").Value.Replace("%MIRROR%", mirror), "moviefiles.zip"))
+                        return true;
 
                     if (Directory.Exists("moviefiles"))
                         Directory.Move("moviefiles", "moviefiles_" + LocalMoviefilesVersion.ToString());
@@ -58,10 +59,10 @@ namespace SourceRecordingTool
                 if (File.Exists(oldPath))
                     File.Delete(oldPath);
 
-                RemoteGUIVersion = new Version(version.Root.Element("GUI").Element("Version").Value);
                 if (LocalGUIVersion < RemoteGUIVersion)
                 {
-                    DownloadFileForm.Start(version.Root.Element("GUI").Element("Download").Value.Replace("%MIRROR%", mirror), downloadPath);
+                    if (!DownloadFileForm.Start(version.Root.Element("GUI").Element("Download").Value.Replace("%MIRROR%", mirror), downloadPath))
+                        return true;
 
                     File.Move(executablePath, oldPath);
                     File.Move(downloadPath, executablePath);

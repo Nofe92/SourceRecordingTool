@@ -68,8 +68,9 @@ namespace SourceRecordingTool
             CurrentProfile.UpdateForm(this);
 
             SRTStartGameManager.GameClosed += AfterGame;
-            ResolutionComboBox.TextChanged += new EventHandler(ResolutionComboBox_TextChanged);
-            FramerateComboBox.TextChanged += new EventHandler(FramerateComboBox_TextChanged);
+            GameComboBox.SelectedIndexChanged += GameComboBox_SelectedIndexChanged;
+            ResolutionComboBox.TextChanged += ResolutionComboBox_TextChanged;
+            FramerateComboBox.TextChanged += FramerateComboBox_TextChanged;
 
             RefreshDatarate();
             RefreshTGASequences(false);
@@ -80,7 +81,7 @@ namespace SourceRecordingTool
             SRTGame CSGO = new SRTGame(730, "Counter-Strike: Global Offensive", "Counter-Strike Global Offensive", "csgo", "csgo.exe", "cs_baggage_skybox_", "cs_tibet", "embassy", "italy", "jungle", "office", "sky_cs15_daylight01_hdr", "sky_cs15_daylight02_hdr", "sky_cs15_daylight03_hdr", "sky_cs15_daylight04_hdr", "sky_day02_05", "sky_day02_05_hdr", "sky_dust", "vertigoblue_hdr", "vertigo", "vertigo_hdr", "vietnam");
             SRTGame CSS = new SRTGame(240, "Counter-Strike: Source", "Counter-Strike Source", "cstrike", "hl2.exe", "assaultup.vmt", "cxup.vmt", "de_cobbleup.vmt", "de_cobble_hdrup.vmt", "de_piranesiup.vmt", "havup.vmt", "italyup.vmt", "jungleup.vmt", "militia_hdrup.vmt", "officeup.vmt", "sky_c17_05up.vmt", "sky_dustup.vmt", "sky_dust_hdrup.vmt", "tidesup.vmt", "trainup.vmt", "train_hdrup.vmt");
             SRTGame DODS = new SRTGame(300, "Day of Defeat: Source", "Day of Defeat Source", "dod", "hl2.exe", "sky_day01_01", "sky_dod_01_hdr", "sky_dod_02_hdr", "sky_dod_03_hdr", "sky_dod_04_hdr", "sky_dod_05_hdr", "sky_dod_06_hdr", "sky_dod_07z_hdr", "sky_dod_07_hdr", "sky_dod_08_hdr", "sky_dod_09_hdr", "sky_dod_10_hdr");
-            SRTGame DOTA2 = new SRTGame(570, "Dota 2", "dota 2 beta", "dota", "dota.exe", new string[0]);
+            SRTGame DOTA2 = new SRTGame(570, "Dota 2", "dota 2 beta", "dota", "dota.exe");
             SRTGame HL2 = new SRTGame(220, "Half-Life 2", "Half-Life 2", "hl2", "hl2.exe", "sky_borealis01", "sky_day01_01", "sky_day01_01_hdr", "sky_day01_04", "sky_day01_04_hdr", "sky_day01_05", "sky_day01_05_hdr", "sky_day01_06", "sky_day01_06_hdr", "sky_day01_07", "sky_day01_07_hdr", "sky_day01_08", "sky_day01_08_hdr", "sky_day01_09", "sky_day01_09_hdr", "sky_day02_01", "sky_day02_01_hdr", "sky_day02_02", "sky_day02_02_hdr", "sky_day02_03", "sky_day02_03_hdr", "sky_day02_04", "sky_day02_04_hdr", "sky_day02_05", "sky_day02_05_hdr", "sky_day02_06", "sky_day02_06_hdr", "sky_day02_07", "sky_day02_07_hdr", "sky_day02_09", "sky_day02_09_hdr", "sky_day02_10", "sky_day02_10_hdr", "sky_day03_01", "sky_day03_01_hdr", "sky_day03_02", "sky_day03_02_hdr", "sky_day03_03", "sky_day03_04", "sky_day03_04_hdr", "sky_day03_05", "sky_day03_05_hdr", "sky_day03_06b", "sky_day03_06b_hdr", "sky_day03_06", "sky_day03_06_hdr", "sky_wasteland02");
             SRTGame HL2DM = new SRTGame(320, "Half-Life 2: Deathmatch", "Half-Life 2 Deathmatch", "hl2mp", "hl2.exe", "sky_borealis01", "sky_day01_01", "sky_day01_01_hdr", "sky_day01_04", "sky_day01_04_hdr", "sky_day01_05", "sky_day01_05_hdr", "sky_day01_06", "sky_day01_06_hdr", "sky_day01_07", "sky_day01_07_hdr", "sky_day01_08", "sky_day01_08_hdr", "sky_day01_09", "sky_day01_09_hdr", "sky_day02_01", "sky_day02_01_hdr", "sky_day02_02", "sky_day02_02_hdr", "sky_day02_03", "sky_day02_03_hdr", "sky_day02_04", "sky_day02_04_hdr", "sky_day02_05", "sky_day02_05_hdr", "sky_day02_06", "sky_day02_06_hdr", "sky_day02_07", "sky_day02_07_hdr", "sky_day02_09", "sky_day02_09_hdr", "sky_day02_10", "sky_day02_10_hdr", "sky_day03_01", "sky_day03_01_hdr", "sky_day03_02", "sky_day03_02_hdr", "sky_day03_03", "sky_day03_04", "sky_day03_04_hdr", "sky_day03_05", "sky_day03_05_hdr", "sky_day03_06b", "sky_day03_06b_hdr", "sky_day03_06", "sky_day03_06_hdr", "sky_wasteland02");
             SRTGame HL2EP1 = new SRTGame(380, "Half-Life 2: Episode One", "Half-Life 2", "episodic", "hl2.exe", "sky_day03_06c", "sky_ep01_00", "sky_ep01_00_hdr", "sky_ep01_01", "sky_ep01_02", "sky_ep01_02_hdr", "sky_ep01_04a", "sky_ep01_04a_hdr", "sky_ep01_04", "sky_ep01_04_hdr", "sky_ep01_citadel_int", "sky_fog");
@@ -95,9 +96,7 @@ namespace SourceRecordingTool
             SRTGame.AllGames = new SRTGame[] { CSGO, CSS, DODS, DOTA2, HL2, HL2DM, HL2EP1, HL2EP2, HL2LOSTCOAST, L4D, L4D2, PORTAL, PORTAL2, TF2 };
 
             foreach (SRTGame game in SRTGame.AllGames)
-            {
                 GameComboBox.Items.Add(game.Name);
-            }
         }
 
         private void InitializeConfig()
@@ -155,20 +154,26 @@ namespace SourceRecordingTool
         #region Refresh
         private void RefreshDatarate()
         {
-            resolutionLabel.ForeColor = CurrentProfile.Width < 0 ? Color.DarkRed : Color.Navy;
-            ResolutionComboBox.BackColor = CurrentProfile.Width < 0 ? Color.LightCoral : Color.FromKnownColor(KnownColor.Window);
-            framerateLabel.ForeColor = CurrentProfile.Framerate < 0 ? Color.DarkRed : Color.Navy;
-            FramerateComboBox.BackColor = CurrentProfile.Framerate < 0 ? Color.LightCoral : Color.FromKnownColor(KnownColor.Window);
+            bool validGame = GameComboBox.SelectedIndex > 0;
+            bool validResolution = CurrentProfile.Width > 0;
+            bool validFramerate = CurrentProfile.Framerate > 0;
 
-            if (CurrentProfile.Width < 0 || CurrentProfile.Framerate < 0)
-            {
-                startGameButton.Enabled = false;
-                datarateValueLabel.Text = "";
-            }
-            else
-            {
-                startGameButton.Enabled = true;
+            gameLabel.ForeColor = validGame ? Color.Navy : Color.DarkRed;
+            resolutionLabel.ForeColor = validResolution ? Color.Navy : Color.DarkRed;
+            ResolutionComboBox.BackColor = validResolution ? Color.FromKnownColor(KnownColor.Window) : Color.LightCoral;
+            framerateLabel.ForeColor = validFramerate ? Color.Navy : Color.DarkRed;
+            FramerateComboBox.BackColor = validFramerate ? Color.FromKnownColor(KnownColor.Window) : Color.LightCoral;
 
+            openLongNamePathToolStripMenuItem.Enabled = validGame;
+            openShortNamePathToolStripMenuItem.Enabled = validGame;
+            installGameToolStripMenuItem.Enabled = validGame;
+            validateGameToolStripMenuItem.Enabled = validGame;
+            restoreBackupToolStripMenuItem.Enabled = validGame;
+
+            startGameButton.Enabled = validGame && validResolution && validFramerate;
+
+            if (validResolution && validFramerate)
+            {
                 long size = CurrentProfile.Width * CurrentProfile.Height * 3L * CurrentProfile.Framerate + 44100L * 2L * 2L;
                 string pathRoot;
 
@@ -177,11 +182,12 @@ namespace SourceRecordingTool
                 else
                     datarateValueLabel.Text = String.Format("{0:F2} MB/sec ({1} minutes left)", size / (1024d * 1024d), new DriveInfo(pathRoot).AvailableFreeSpace / size / 60);
             }
-
-            if (Directory.Exists("backup"))
-                clearBackupCacheToolStripMenuItem.Text = "Clear Backup cache (" + ((new DirectoryInfo("backup").EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(f => f.Length) - 1) / 1024 / 1024 + 1).ToString() + " MB)...";
             else
-                clearBackupCacheToolStripMenuItem.Text = "Clear Backup cache...";
+            {
+                datarateValueLabel.Text = "";
+            }
+
+            clearBackupCacheToolStripMenuItem.Text = "Clear Backup cache...";
         }
 
         private void RefreshTGASequences(bool clear)
@@ -253,22 +259,24 @@ namespace SourceRecordingTool
         }
         #endregion
 
-        private void LoadProfile()
+        #region Profile
+        private void LoadProfile(string path)
         {
-            CurrentProfile.Load(DEFAULT_PROFILE_PATH);
+            CurrentProfile.Load(path);
             CurrentProfile.UpdateForm(this);
         }
 
-        public void SaveProfile()
+        public void SaveProfile(string path)
         {
             CurrentProfile.UpdateProfile(this);
-            CurrentProfile.Save(DEFAULT_PROFILE_PATH);
+            CurrentProfile.Save(path);
         }
+        #endregion
 
         #region MainForm
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            SaveProfile();
+            SaveProfile(DEFAULT_PROFILE_PATH);
         }
 
         protected override void OnDragEnter(DragEventArgs drgevent)
@@ -283,7 +291,24 @@ namespace SourceRecordingTool
         {
             string[] paths = (string[])drgevent.Data.GetData(DataFormats.FileDrop);
 
-            OpenDemo(paths[0]);
+            StartGame(paths[0]);
+        }
+        #endregion
+
+        #region General
+        private void GameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshDatarate();
+
+            if (GameComboBox.SelectedIndex < 1)
+                return;
+
+            SRTGame game = SRTGame.AllGames[GameComboBox.SelectedIndex - 1];
+
+            if (ConfigComboBox.Items.IndexOf(game.ShortName + "-movie.cfg") != -1)
+                ConfigComboBox.SelectedItem = game.ShortName + "-movie.cfg";
+            else
+                ConfigComboBox.SelectedItem = "shared-movie.cfg";
         }
         #endregion
 
@@ -436,6 +461,7 @@ namespace SourceRecordingTool
         #endregion
 
         #region StartGame
+
         private void startGameButton_Click(object sender, EventArgs e)
         {
             StartGame();
@@ -445,6 +471,13 @@ namespace SourceRecordingTool
         {
             CurrentProfile.UpdateProfile(this);
             SRTStartGameManager.StartASync();
+        }
+
+        private void StartGame(string demo)
+        {
+            CurrentProfile.UpdateProfile(this);
+            SRTStartGameManager.StartASync(demo);
+            CurrentProfile.UpdateForm(this);
         }
 
         private void AfterGame(bool success)
@@ -714,33 +747,25 @@ namespace SourceRecordingTool
         #region Profile
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadProfile();
+            LoadProfile(DEFAULT_PROFILE_PATH);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveProfile();
+            SaveProfile(DEFAULT_PROFILE_PATH);
         }
 
         private void openDemoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openDemoDialog.ShowDialog() == DialogResult.OK)
-                OpenDemo(openDemoDialog.FileName);
-        }
-
-        private void OpenDemo(string path)
-        {
-            CurrentProfile.UpdateProfile(this);
-            SRTStartGameManager.StartASync(path);
-            CurrentProfile.UpdateForm(this);
+                StartGame(openDemoDialog.FileName);
         }
 
         private void loadFromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openProfileDialog.ShowDialog() == DialogResult.OK)
             {
-                CurrentProfile.Load(openProfileDialog.FileName);
-                CurrentProfile.UpdateForm(this);
+                LoadProfile(openProfileDialog.FileName);
             }
         }
 
@@ -748,8 +773,7 @@ namespace SourceRecordingTool
         {
             if (saveProfileDialog.ShowDialog() == DialogResult.OK)
             {
-                CurrentProfile.UpdateProfile(this);
-                CurrentProfile.Save(saveProfileDialog.FileName);
+                SaveProfile(saveProfileDialog.FileName);
             }
         }
 
@@ -782,22 +806,22 @@ namespace SourceRecordingTool
 
         private void openLongNamePathToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Shell.OpenDirectory(SRTGame.AllGames[GameComboBox.SelectedIndex].LongNamePath);
+            Shell.OpenDirectory(SRTGame.AllGames[GameComboBox.SelectedIndex - 1].LongNamePath);
         }
 
         private void openShortNamePathToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Shell.OpenDirectory(SRTGame.AllGames[GameComboBox.SelectedIndex].ShortNamePath);
+            Shell.OpenDirectory(SRTGame.AllGames[GameComboBox.SelectedIndex - 1].ShortNamePath);
         }
 
         private void installGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Shell.Open("steam://install/" + SRTGame.AllGames[GameComboBox.SelectedIndex].AppID.ToString());
+            Shell.Open("steam://install/" + SRTGame.AllGames[GameComboBox.SelectedIndex - 1].AppID.ToString());
         }
 
         private void validateGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Shell.Open("steam://validate/" + SRTGame.AllGames[GameComboBox.SelectedIndex].AppID.ToString());
+            Shell.Open("steam://validate/" + SRTGame.AllGames[GameComboBox.SelectedIndex - 1].AppID.ToString());
         }
 
         private void deleteTGASequencesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -918,7 +942,7 @@ namespace SourceRecordingTool
 
         private void restoreBackupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string[] restorePoints = Directory.GetDirectories("backup\\" + SRTGame.AllGames[GameComboBox.SelectedIndex].ShortName, "????-??-??");
+            string[] restorePoints = Directory.GetDirectories("backup\\" + SRTGame.AllGames[GameComboBox.SelectedIndex - 1].ShortName, "????-??-??");
 
             if (restorePoints.Length == 0)
             {
@@ -929,9 +953,11 @@ namespace SourceRecordingTool
             if (!Dialogs.Question("Are you sure to restore your backup?\r\nWARNING: THIS WILL OVERWRITE YOUR CURRENT FILES (addons, cfg & custom)"))
                 return;
 
-            string addons = CurrentProfile.Game.ShortNamePath + "\\addons";
-            string cfg = CurrentProfile.Game.ShortNamePath + "\\cfg";
-            string custom = CurrentProfile.Game.ShortNamePath + "\\custom";
+            SRTGame game = SRTGame.AllGames[CurrentProfile.GameIndex];
+
+            string addons = game.ShortNamePath + "\\addons";
+            string cfg = game.ShortNamePath + "\\cfg";
+            string custom = game.ShortNamePath + "\\custom";
 
             string lastAddons = restorePoints[restorePoints.Length - 1] + "\\addons";
             string lastCfg = restorePoints[restorePoints.Length - 1] + "\\cfg";
@@ -955,7 +981,9 @@ namespace SourceRecordingTool
         {
             if (Dialogs.Question("Are you sure to permanently delete all backups?"))
             {
-                Directory.Delete("backup", true);
+                foreach (string directory in Directory.GetDirectories("backup"))
+                    Directory.Delete(directory, true);
+
                 RefreshDatarate();
             }
         }

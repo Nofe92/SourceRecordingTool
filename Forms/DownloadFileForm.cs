@@ -23,13 +23,15 @@ namespace SourceRecordingTool
             InitializeComponent();
         }
 
-        public static void Start(string url, string fileName)
+        public static bool Start(string url, string fileName)
         {
-            DownloadFileForm downloadFileForm = new DownloadFileForm();
-            downloadFileForm.url = url;
-            downloadFileForm.fileName = fileName;
-            downloadFileForm.Text = "Downloading " + fileName;
-            downloadFileForm.ShowDialog();
+            using (DownloadFileForm downloadFileForm = new DownloadFileForm())
+            {
+                downloadFileForm.url = url;
+                downloadFileForm.fileName = fileName;
+                downloadFileForm.Text = "Downloading " + fileName;
+                return downloadFileForm.ShowDialog() == DialogResult.OK;
+            }
         }
 
         protected override void OnShown(EventArgs e)
@@ -40,36 +42,43 @@ namespace SourceRecordingTool
 
         public void DownloadFile()
         {
-            SetText("Sending HttpWebRequest...");
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            SetText("Getting HttpWebResponse...");
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream responseStream = response.GetResponseStream();
-            SetText("Creating File...");
-            FileStream fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read);
-            SetText("Downloading...");
-
-            int current = 0;
-            int total = (int)response.ContentLength;
-            SetMaxProgress(total);
-            
-            int size;
-            byte[] buffer = new byte[ushort.MaxValue];
-
-            while ((size = responseStream.Read(buffer, 0, buffer.Length)) > 0)
+            try
             {
-                fileStream.Write(buffer, 0, size);
-                current += size;
+                SetText("Sending HttpWebRequest...");
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                SetText("Getting HttpWebResponse...");
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Stream responseStream = response.GetResponseStream();
+                SetText("Creating File...");
+                FileStream fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read);
+                SetText("Downloading...");
 
-                SetProgress(current);
-                SetText(String.Format("Downloading {0:F0} KB/{1:F0} KB ({2:P2})", current / 1024d, total / 1024d, (double)current / (double)total));
+                int current = 0;
+                int total = (int)response.ContentLength;
+                SetMaxProgress(total);
+
+                int size;
+                byte[] buffer = new byte[ushort.MaxValue];
+
+                while ((size = responseStream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    fileStream.Write(buffer, 0, size);
+                    current += size;
+
+                    SetProgress(current);
+                    SetText(String.Format("Downloading {0:F0} KB/{1:F0} KB ({2:P2})", current / 1024d, total / 1024d, (double)current / (double)total));
+                }
+
+                fileStream.Close();
+                responseStream.Close();
+                response.Close();
+
+                DialogResult = DialogResult.OK;
             }
-
-            fileStream.Close();
-            responseStream.Close();
-            response.Close();
-
-            DialogResult = DialogResult.OK;
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
         }
 
         public void SetText(string text)

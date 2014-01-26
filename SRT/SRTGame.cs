@@ -12,6 +12,7 @@ namespace SourceRecordingTool
 
         public int AppID;
         public string Name;
+        public string Nickname;
         public string LongName;
         public string ShortName;
         public string Executable;

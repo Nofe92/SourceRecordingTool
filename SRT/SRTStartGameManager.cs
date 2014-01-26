@@ -19,6 +19,7 @@ namespace SourceRecordingTool
         private static List<string> vdmFileList = new List<string>();
         private static SRTProfile profile;
         private static SRTGame game;
+        private static SRTSkybox skybox;
         private static string demo;
         private static string addons;
         private static string cfg;
@@ -134,7 +135,8 @@ namespace SourceRecordingTool
         private static void Initialize()
         {
             profile = MainForm.CurrentProfile;
-            game = profile.Game;
+            game = SRTGame.AllGames[profile.GameIndex];
+            skybox = SRTSkybox.FindSkyboxByName(profile.Skyname);
 
             addons = game.ShortNamePath + "\\addons";
             cfg = game.ShortNamePath + "\\cfg";
@@ -464,7 +466,7 @@ namespace SourceRecordingTool
 
         private static void CreateSkybox()
         {
-            if (profile.Skybox == null)
+            if (skybox == null)
                 return;
 
             string skyboxPath = game.ShortNamePath + "\\custom\\custom_skybox\\materials\\skybox\\";
@@ -472,11 +474,11 @@ namespace SourceRecordingTool
             Directory.CreateDirectory(skyboxPath);
 
             for (int i = 0; i < SRTSkybox.Sides.Length; i++)
-                File.Copy(profile.Skybox.GetVTF(i), skyboxPath + Path.GetFileName(profile.Skybox.GetVTF(i)), true);
+                File.Copy(skybox.GetVTF(i), skyboxPath + Path.GetFileName(skybox.GetVTF(i)), true);
 
             foreach (string skyName in game.SkyNames)
                 for (int i = 0; i < SRTSkybox.Sides.Length; i++)
-                    File.Copy(profile.Skybox.GetVMT(i), skyboxPath + skyName + SRTSkybox.Sides[i] + ".vmt", true);
+                    File.Copy(skybox.GetVMT(i), skyboxPath + skyName + SRTSkybox.Sides[i] + ".vmt", true);
         }
 
         private static void CreateVDM()

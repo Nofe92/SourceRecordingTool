@@ -31,7 +31,11 @@ namespace SourceRecordingTool
             if (name == "")
                 return null;
 
-            return Skyboxes.First(sky => sky.Name == name);
+            for (int i = 0; i < Skyboxes.Count; i++)
+                if (name == Skyboxes[i].Name)
+                    return Skyboxes[i];
+
+            return null;
         }
 
         public static void AddSkyboxByDirectory(string dir)
